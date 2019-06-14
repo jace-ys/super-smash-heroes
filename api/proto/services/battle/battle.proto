@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package battle;
+
+service BattleService {
+  rpc GetBattleResult(BattleRequest) returns (BattleResult) {}
+}
+
+message BattleRequest {
+  string id1 = 1;
+  string id2 = 2;
+}
+
+message BattleResult {
+  string victorId = 1;
+}

@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package superhero;
+
+service SuperheroService {
+  rpc GetAllSuperheroes(Empty) returns (stream Superhero) {}
+  rpc GetOneSuperhero(SuperheroID) returns (Superhero) {}
+  rpc AddSuperhero(SearchKeyVal) returns (Superhero) {}
+  rpc DeleteOneSuperhero(SuperheroID) returns (Empty) {}
+}
+
+message Empty {
+
+}
+
+message SuperheroID {
+  string val = 1;
+}
+
+message Superhero {
+  string id = 1;
+  string full_name = 2;
+  string alter_ego = 3;
+  message PowerStats {
+    int32 intelligence = 1;
+    int32 stength = 2;
+    int32 speed = 3;
+    int32 durability = 4;
+    int32 power = 5;
+    int32 combat = 6;
+  }
+}
+
+message SearchKeyVal {
+  enum Key {
+    ID = 0;
+    FULL_NAME = 1;
+    ALTER_EGO = 2;
+  }
+  Key key = 1;
+  string val = 2;
+}
