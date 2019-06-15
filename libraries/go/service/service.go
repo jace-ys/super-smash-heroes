@@ -17,7 +17,7 @@ func StartServer(s Service, port int) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Service listening on port", port)
+	log.Println("Server listening on port", port)
 	if err := s.Serve(lis); err != nil {
 		log.Fatal(err)
 	}
