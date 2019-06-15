@@ -3,7 +3,7 @@ SOURCE = main.go
 IMAGE = jaceys/super-smash-heroes/service.rest-api
 VERSION = latest
 
-.PHONY: all run build execute image test format clean
+.PHONY: all run build execute image test format update
 
 all: format build execute
 
@@ -31,7 +31,7 @@ format:
 	@echo "==> Formatting code.."
 	gofmt -w .
 
-clean:
-	@echo "==> Cleaning up.."
+update:
+	@echo "==> Updating dependencies.."
+	go get -u
 	go mod tidy
-	go clean
