@@ -1,6 +1,7 @@
 TARGET = main
 SOURCE = main.go
-IMAGE = jaceys/super-smash-heroes/service.battle
+DOCKER_BINARY = main_docker
+IMAGE = super-smash-heroes/service.battle
 VERSION = latest
 
 .PHONY: all run build execute image test format update
@@ -20,8 +21,12 @@ execute:
 	@./${TARGET}
 
 image:
-	@echo "==> Building Docker image"
+	@echo "==> Building binary for Linux.."
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o ${DOCKER_BINARY}
+	@echo "==> Building image.."
 	docker build -t ${IMAGE}:${VERSION} .
+	@echo "==> Removing binary.."
+	rm ${DOCKER_BINARY}
 
 test:
 	@echo "==> Running tests.."

@@ -1,24 +1,44 @@
 package handler
 
 import (
+	"context"
 	"net/http"
 
+	"google.golang.org/grpc"
+
 	"github.com/jace-ys/super-smash-heroes/services/rest-api/pkg/response"
+
+	pb "github.com/jace-ys/super-smash-heroes/api/proto/generated/go/battle"
 )
+
+type BattleServiceClient struct {
+	conn *grpc.ClientConn
+}
 
 type battleRequest struct {
 	id1 string
 	id2 string
 }
 
-func GetBattleResult(w http.ResponseWriter, r *http.Request) {
+func (c *BattleServiceClient) GetBattleResult(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
-	br, err := verifyBattleRequest(queryParams)
+	battleReq, err := verifyBattleRequest(queryParams)
 	if err != nil {
 		response.SendError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	response.SendJSON(w, http.StatusOK, map[string]string{"id1": br.id1, "id2": br.id2})
+	client := pb.NewBattleServiceClient(c.conn)
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+	battleRes, err := client.GetBattleResult(ctx, &pb.BattleRequest{
+		Id1: battleReq.id1,
+		Id2: battleReq.id2,
+	})
+	if err != nil {
+		response.SendError(w, http.StatusNotFound, err.Error())
+		return
+	}
+	response.SendJSON(w, http.StatusOK, map[string]string{"victorID": battleRes.GetVictorId()})
 	return
 }
 
