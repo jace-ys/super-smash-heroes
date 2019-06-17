@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/jace-ys/super-smash-heroes/libraries/go/router"
 	"github.com/jace-ys/super-smash-heroes/services/rest-api/pkg/handler"
-	"github.com/jace-ys/super-smash-heroes/services/rest-api/pkg/router"
 )
 
 type server struct {

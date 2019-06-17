@@ -22,31 +22,28 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type SearchKeyVal_Key int32
+type SearchRequest_Key int32
 
 const (
-	SearchKeyVal_ID        SearchKeyVal_Key = 0
-	SearchKeyVal_FULL_NAME SearchKeyVal_Key = 1
-	SearchKeyVal_ALTER_EGO SearchKeyVal_Key = 2
+	SearchRequest_FULL_NAME SearchRequest_Key = 0
+	SearchRequest_ALTER_EGO SearchRequest_Key = 1
 )
 
-var SearchKeyVal_Key_name = map[int32]string{
-	0: "ID",
-	1: "FULL_NAME",
-	2: "ALTER_EGO",
+var SearchRequest_Key_name = map[int32]string{
+	0: "FULL_NAME",
+	1: "ALTER_EGO",
 }
 
-var SearchKeyVal_Key_value = map[string]int32{
-	"ID":        0,
-	"FULL_NAME": 1,
-	"ALTER_EGO": 2,
+var SearchRequest_Key_value = map[string]int32{
+	"FULL_NAME": 0,
+	"ALTER_EGO": 1,
 }
 
-func (x SearchKeyVal_Key) String() string {
-	return proto.EnumName(SearchKeyVal_Key_name, int32(x))
+func (x SearchRequest_Key) String() string {
+	return proto.EnumName(SearchRequest_Key_name, int32(x))
 }
 
-func (SearchKeyVal_Key) EnumDescriptor() ([]byte, []int) {
+func (SearchRequest_Key) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_23a1973666112575, []int{3, 0}
 }
 
@@ -81,46 +78,46 @@ func (m *Empty) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Empty proto.InternalMessageInfo
 
-type SuperheroID struct {
+type SuperheroIdRequest struct {
 	Val                  string   `protobuf:"bytes,1,opt,name=val,proto3" json:"val,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SuperheroID) Reset()         { *m = SuperheroID{} }
-func (m *SuperheroID) String() string { return proto.CompactTextString(m) }
-func (*SuperheroID) ProtoMessage()    {}
-func (*SuperheroID) Descriptor() ([]byte, []int) {
+func (m *SuperheroIdRequest) Reset()         { *m = SuperheroIdRequest{} }
+func (m *SuperheroIdRequest) String() string { return proto.CompactTextString(m) }
+func (*SuperheroIdRequest) ProtoMessage()    {}
+func (*SuperheroIdRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_23a1973666112575, []int{1}
 }
 
-func (m *SuperheroID) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SuperheroID.Unmarshal(m, b)
+func (m *SuperheroIdRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuperheroIdRequest.Unmarshal(m, b)
 }
-func (m *SuperheroID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SuperheroID.Marshal(b, m, deterministic)
+func (m *SuperheroIdRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuperheroIdRequest.Marshal(b, m, deterministic)
 }
-func (m *SuperheroID) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SuperheroID.Merge(m, src)
+func (m *SuperheroIdRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuperheroIdRequest.Merge(m, src)
 }
-func (m *SuperheroID) XXX_Size() int {
-	return xxx_messageInfo_SuperheroID.Size(m)
+func (m *SuperheroIdRequest) XXX_Size() int {
+	return xxx_messageInfo_SuperheroIdRequest.Size(m)
 }
-func (m *SuperheroID) XXX_DiscardUnknown() {
-	xxx_messageInfo_SuperheroID.DiscardUnknown(m)
+func (m *SuperheroIdRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuperheroIdRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_SuperheroID proto.InternalMessageInfo
+var xxx_messageInfo_SuperheroIdRequest proto.InternalMessageInfo
 
-func (m *SuperheroID) GetVal() string {
+func (m *SuperheroIdRequest) GetVal() string {
 	if m != nil {
 		return m.Val
 	}
 	return ""
 }
 
-type Superhero struct {
+type SuperheroResponse struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	FullName             string   `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
 	AlterEgo             string   `protobuf:"bytes,3,opt,name=alter_ego,json=alterEgo,proto3" json:"alter_ego,omitempty"`
@@ -129,53 +126,53 @@ type Superhero struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Superhero) Reset()         { *m = Superhero{} }
-func (m *Superhero) String() string { return proto.CompactTextString(m) }
-func (*Superhero) ProtoMessage()    {}
-func (*Superhero) Descriptor() ([]byte, []int) {
+func (m *SuperheroResponse) Reset()         { *m = SuperheroResponse{} }
+func (m *SuperheroResponse) String() string { return proto.CompactTextString(m) }
+func (*SuperheroResponse) ProtoMessage()    {}
+func (*SuperheroResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_23a1973666112575, []int{2}
 }
 
-func (m *Superhero) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Superhero.Unmarshal(m, b)
+func (m *SuperheroResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuperheroResponse.Unmarshal(m, b)
 }
-func (m *Superhero) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Superhero.Marshal(b, m, deterministic)
+func (m *SuperheroResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuperheroResponse.Marshal(b, m, deterministic)
 }
-func (m *Superhero) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Superhero.Merge(m, src)
+func (m *SuperheroResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuperheroResponse.Merge(m, src)
 }
-func (m *Superhero) XXX_Size() int {
-	return xxx_messageInfo_Superhero.Size(m)
+func (m *SuperheroResponse) XXX_Size() int {
+	return xxx_messageInfo_SuperheroResponse.Size(m)
 }
-func (m *Superhero) XXX_DiscardUnknown() {
-	xxx_messageInfo_Superhero.DiscardUnknown(m)
+func (m *SuperheroResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuperheroResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Superhero proto.InternalMessageInfo
+var xxx_messageInfo_SuperheroResponse proto.InternalMessageInfo
 
-func (m *Superhero) GetId() string {
+func (m *SuperheroResponse) GetId() string {
 	if m != nil {
 		return m.Id
 	}
 	return ""
 }
 
-func (m *Superhero) GetFullName() string {
+func (m *SuperheroResponse) GetFullName() string {
 	if m != nil {
 		return m.FullName
 	}
 	return ""
 }
 
-func (m *Superhero) GetAlterEgo() string {
+func (m *SuperheroResponse) GetAlterEgo() string {
 	if m != nil {
 		return m.AlterEgo
 	}
 	return ""
 }
 
-type Superhero_PowerStats struct {
+type SuperheroResponse_PowerStats struct {
 	Intelligence         int32    `protobuf:"varint,1,opt,name=intelligence,proto3" json:"intelligence,omitempty"`
 	Stength              int32    `protobuf:"varint,2,opt,name=stength,proto3" json:"stength,omitempty"`
 	Speed                int32    `protobuf:"varint,3,opt,name=speed,proto3" json:"speed,omitempty"`
@@ -187,114 +184,114 @@ type Superhero_PowerStats struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Superhero_PowerStats) Reset()         { *m = Superhero_PowerStats{} }
-func (m *Superhero_PowerStats) String() string { return proto.CompactTextString(m) }
-func (*Superhero_PowerStats) ProtoMessage()    {}
-func (*Superhero_PowerStats) Descriptor() ([]byte, []int) {
+func (m *SuperheroResponse_PowerStats) Reset()         { *m = SuperheroResponse_PowerStats{} }
+func (m *SuperheroResponse_PowerStats) String() string { return proto.CompactTextString(m) }
+func (*SuperheroResponse_PowerStats) ProtoMessage()    {}
+func (*SuperheroResponse_PowerStats) Descriptor() ([]byte, []int) {
 	return fileDescriptor_23a1973666112575, []int{2, 0}
 }
 
-func (m *Superhero_PowerStats) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Superhero_PowerStats.Unmarshal(m, b)
+func (m *SuperheroResponse_PowerStats) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuperheroResponse_PowerStats.Unmarshal(m, b)
 }
-func (m *Superhero_PowerStats) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Superhero_PowerStats.Marshal(b, m, deterministic)
+func (m *SuperheroResponse_PowerStats) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuperheroResponse_PowerStats.Marshal(b, m, deterministic)
 }
-func (m *Superhero_PowerStats) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Superhero_PowerStats.Merge(m, src)
+func (m *SuperheroResponse_PowerStats) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuperheroResponse_PowerStats.Merge(m, src)
 }
-func (m *Superhero_PowerStats) XXX_Size() int {
-	return xxx_messageInfo_Superhero_PowerStats.Size(m)
+func (m *SuperheroResponse_PowerStats) XXX_Size() int {
+	return xxx_messageInfo_SuperheroResponse_PowerStats.Size(m)
 }
-func (m *Superhero_PowerStats) XXX_DiscardUnknown() {
-	xxx_messageInfo_Superhero_PowerStats.DiscardUnknown(m)
+func (m *SuperheroResponse_PowerStats) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuperheroResponse_PowerStats.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Superhero_PowerStats proto.InternalMessageInfo
+var xxx_messageInfo_SuperheroResponse_PowerStats proto.InternalMessageInfo
 
-func (m *Superhero_PowerStats) GetIntelligence() int32 {
+func (m *SuperheroResponse_PowerStats) GetIntelligence() int32 {
 	if m != nil {
 		return m.Intelligence
 	}
 	return 0
 }
 
-func (m *Superhero_PowerStats) GetStength() int32 {
+func (m *SuperheroResponse_PowerStats) GetStength() int32 {
 	if m != nil {
 		return m.Stength
 	}
 	return 0
 }
 
-func (m *Superhero_PowerStats) GetSpeed() int32 {
+func (m *SuperheroResponse_PowerStats) GetSpeed() int32 {
 	if m != nil {
 		return m.Speed
 	}
 	return 0
 }
 
-func (m *Superhero_PowerStats) GetDurability() int32 {
+func (m *SuperheroResponse_PowerStats) GetDurability() int32 {
 	if m != nil {
 		return m.Durability
 	}
 	return 0
 }
 
-func (m *Superhero_PowerStats) GetPower() int32 {
+func (m *SuperheroResponse_PowerStats) GetPower() int32 {
 	if m != nil {
 		return m.Power
 	}
 	return 0
 }
 
-func (m *Superhero_PowerStats) GetCombat() int32 {
+func (m *SuperheroResponse_PowerStats) GetCombat() int32 {
 	if m != nil {
 		return m.Combat
 	}
 	return 0
 }
 
-type SearchKeyVal struct {
-	Key                  SearchKeyVal_Key `protobuf:"varint,1,opt,name=key,proto3,enum=superhero.SearchKeyVal_Key" json:"key,omitempty"`
-	Val                  string           `protobuf:"bytes,2,opt,name=val,proto3" json:"val,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
-	XXX_unrecognized     []byte           `json:"-"`
-	XXX_sizecache        int32            `json:"-"`
+type SearchRequest struct {
+	Key                  SearchRequest_Key `protobuf:"varint,1,opt,name=key,proto3,enum=superhero.SearchRequest_Key" json:"key,omitempty"`
+	Val                  string            `protobuf:"bytes,2,opt,name=val,proto3" json:"val,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *SearchKeyVal) Reset()         { *m = SearchKeyVal{} }
-func (m *SearchKeyVal) String() string { return proto.CompactTextString(m) }
-func (*SearchKeyVal) ProtoMessage()    {}
-func (*SearchKeyVal) Descriptor() ([]byte, []int) {
+func (m *SearchRequest) Reset()         { *m = SearchRequest{} }
+func (m *SearchRequest) String() string { return proto.CompactTextString(m) }
+func (*SearchRequest) ProtoMessage()    {}
+func (*SearchRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_23a1973666112575, []int{3}
 }
 
-func (m *SearchKeyVal) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SearchKeyVal.Unmarshal(m, b)
+func (m *SearchRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SearchRequest.Unmarshal(m, b)
 }
-func (m *SearchKeyVal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SearchKeyVal.Marshal(b, m, deterministic)
+func (m *SearchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SearchRequest.Marshal(b, m, deterministic)
 }
-func (m *SearchKeyVal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SearchKeyVal.Merge(m, src)
+func (m *SearchRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SearchRequest.Merge(m, src)
 }
-func (m *SearchKeyVal) XXX_Size() int {
-	return xxx_messageInfo_SearchKeyVal.Size(m)
+func (m *SearchRequest) XXX_Size() int {
+	return xxx_messageInfo_SearchRequest.Size(m)
 }
-func (m *SearchKeyVal) XXX_DiscardUnknown() {
-	xxx_messageInfo_SearchKeyVal.DiscardUnknown(m)
+func (m *SearchRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SearchRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_SearchKeyVal proto.InternalMessageInfo
+var xxx_messageInfo_SearchRequest proto.InternalMessageInfo
 
-func (m *SearchKeyVal) GetKey() SearchKeyVal_Key {
+func (m *SearchRequest) GetKey() SearchRequest_Key {
 	if m != nil {
 		return m.Key
 	}
-	return SearchKeyVal_ID
+	return SearchRequest_FULL_NAME
 }
 
-func (m *SearchKeyVal) GetVal() string {
+func (m *SearchRequest) GetVal() string {
 	if m != nil {
 		return m.Val
 	}
@@ -302,44 +299,44 @@ func (m *SearchKeyVal) GetVal() string {
 }
 
 func init() {
-	proto.RegisterEnum("superhero.SearchKeyVal_Key", SearchKeyVal_Key_name, SearchKeyVal_Key_value)
+	proto.RegisterEnum("superhero.SearchRequest_Key", SearchRequest_Key_name, SearchRequest_Key_value)
 	proto.RegisterType((*Empty)(nil), "superhero.Empty")
-	proto.RegisterType((*SuperheroID)(nil), "superhero.SuperheroID")
-	proto.RegisterType((*Superhero)(nil), "superhero.Superhero")
-	proto.RegisterType((*Superhero_PowerStats)(nil), "superhero.Superhero.PowerStats")
-	proto.RegisterType((*SearchKeyVal)(nil), "superhero.SearchKeyVal")
+	proto.RegisterType((*SuperheroIdRequest)(nil), "superhero.SuperheroIdRequest")
+	proto.RegisterType((*SuperheroResponse)(nil), "superhero.SuperheroResponse")
+	proto.RegisterType((*SuperheroResponse_PowerStats)(nil), "superhero.SuperheroResponse.PowerStats")
+	proto.RegisterType((*SearchRequest)(nil), "superhero.SearchRequest")
 }
 
 func init() { proto.RegisterFile("superhero.proto", fileDescriptor_23a1973666112575) }
 
 var fileDescriptor_23a1973666112575 = []byte{
 	// 417 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x52, 0xed, 0x8a, 0xd3, 0x50,
-	0x10, 0x6d, 0x6e, 0x4d, 0xd7, 0x8c, 0x75, 0x37, 0x0e, 0xcb, 0x1a, 0x76, 0x41, 0x25, 0xbf, 0x04,
-	0xb1, 0xc8, 0xfa, 0x00, 0x6b, 0xa0, 0xb1, 0x94, 0xd6, 0x5d, 0x49, 0xd5, 0xbf, 0xe1, 0x36, 0x19,
-	0xd3, 0xe0, 0xcd, 0x07, 0x37, 0xb7, 0x2b, 0x01, 0x7f, 0xfb, 0x0e, 0xbe, 0x84, 0xcf, 0x28, 0xb9,
-	0xdd, 0x26, 0x11, 0x2d, 0xec, 0xbf, 0x9c, 0x73, 0x66, 0xee, 0x9c, 0x9c, 0x19, 0x38, 0xa9, 0xb6,
-	0x25, 0xc9, 0x0d, 0xc9, 0x62, 0x52, 0xca, 0x42, 0x15, 0x68, 0xb5, 0x84, 0x7b, 0x04, 0xa6, 0x9f,
-	0x95, 0xaa, 0x76, 0x9f, 0xc3, 0xa3, 0xd5, 0x9e, 0x9d, 0x4f, 0xd1, 0x86, 0xe1, 0x2d, 0x17, 0x8e,
-	0xf1, 0xc2, 0x78, 0x69, 0x05, 0xcd, 0xa7, 0xfb, 0x93, 0x81, 0xd5, 0x56, 0xe0, 0x31, 0xb0, 0x34,
-	0xbe, 0x93, 0x59, 0x1a, 0xe3, 0x05, 0x58, 0x5f, 0xb7, 0x42, 0x84, 0x39, 0xcf, 0xc8, 0x61, 0x9a,
-	0x7e, 0xd8, 0x10, 0xd7, 0x3c, 0xa3, 0x46, 0xe4, 0x42, 0x91, 0x0c, 0x29, 0x29, 0x9c, 0xe1, 0x4e,
-	0xd4, 0x84, 0x9f, 0x14, 0xe7, 0xbf, 0x0d, 0x80, 0x8f, 0xc5, 0x77, 0x92, 0x2b, 0xc5, 0x55, 0x85,
-	0x2e, 0x8c, 0xd3, 0x5c, 0x91, 0x10, 0x69, 0x42, 0x79, 0x44, 0x7a, 0x84, 0x19, 0xfc, 0xc5, 0xa1,
-	0x03, 0x47, 0x95, 0xa2, 0x3c, 0x51, 0x1b, 0x3d, 0xca, 0x0c, 0xf6, 0x10, 0x4f, 0xc1, 0xac, 0x4a,
-	0xa2, 0x58, 0x4f, 0x31, 0x83, 0x1d, 0xc0, 0x67, 0x00, 0xf1, 0x56, 0xf2, 0x75, 0x2a, 0x52, 0x55,
-	0x3b, 0x0f, 0xb4, 0xd4, 0x63, 0x9a, 0xae, 0xb2, 0x71, 0xe0, 0x98, 0xbb, 0x2e, 0x0d, 0xf0, 0x0c,
-	0x46, 0x51, 0x91, 0xad, 0xb9, 0x72, 0x46, 0x9a, 0xbe, 0x43, 0xee, 0x0f, 0x18, 0xaf, 0x88, 0xcb,
-	0x68, 0xb3, 0xa0, 0xfa, 0x0b, 0x17, 0xf8, 0x1a, 0x86, 0xdf, 0xa8, 0xd6, 0x46, 0x8f, 0x2f, 0x2f,
-	0x26, 0x5d, 0xd8, 0xfd, 0xaa, 0xc9, 0x82, 0xea, 0xa0, 0xa9, 0xdb, 0x27, 0xcb, 0xba, 0x64, 0x5f,
-	0xc1, 0x70, 0x41, 0x35, 0x8e, 0x80, 0xcd, 0xa7, 0xf6, 0x00, 0x1f, 0x83, 0xf5, 0xfe, 0xf3, 0x72,
-	0x19, 0x5e, 0x7b, 0x1f, 0x7c, 0xdb, 0x68, 0xa0, 0xb7, 0xfc, 0xe4, 0x07, 0xa1, 0x3f, 0xbb, 0xb1,
-	0xd9, 0xe5, 0x2f, 0x06, 0x76, 0xbb, 0x86, 0x15, 0xc9, 0xdb, 0x34, 0x22, 0xbc, 0x82, 0x27, 0x33,
-	0x52, 0x9e, 0x10, 0xad, 0x42, 0x15, 0xda, 0x3d, 0x2b, 0x7a, 0xc7, 0xe7, 0xa7, 0x7d, 0x73, 0xed,
-	0x09, 0x0c, 0xde, 0x18, 0xe8, 0xc1, 0xc9, 0x8c, 0xd4, 0x4d, 0x4e, 0xdd, 0x86, 0xcf, 0xfe, 0x57,
-	0x3c, 0x9f, 0x1e, 0x7a, 0x04, 0xaf, 0x60, 0xec, 0xc5, 0x71, 0xd7, 0xff, 0xf4, 0x40, 0x12, 0x07,
-	0x1f, 0x78, 0x07, 0x38, 0x25, 0x41, 0x8a, 0xee, 0x65, 0xe3, 0x9f, 0xbf, 0x73, 0x07, 0xeb, 0x91,
-	0x3e, 0xef, 0xb7, 0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0x7f, 0xbe, 0x8d, 0x2b, 0xf1, 0x02, 0x00,
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0x5b, 0x6e, 0xd3, 0x40,
+	0x14, 0x8d, 0x1d, 0x9c, 0x92, 0xab, 0x3e, 0xdc, 0x2b, 0x84, 0x46, 0xe5, 0x21, 0x64, 0x24, 0xc4,
+	0x57, 0x84, 0xca, 0x0a, 0x22, 0x61, 0x0c, 0x6a, 0x68, 0xab, 0x09, 0x7c, 0x47, 0x93, 0xf8, 0xe2,
+	0x58, 0x8c, 0x3d, 0x66, 0x66, 0x1c, 0xe4, 0x4d, 0xb0, 0x14, 0xd6, 0xc0, 0xd2, 0x90, 0x27, 0xb5,
+	0xd3, 0xf0, 0x50, 0xc5, 0x9f, 0xcf, 0x39, 0xf7, 0x71, 0x74, 0xae, 0x07, 0x4e, 0x4c, 0x5d, 0x91,
+	0x5e, 0x93, 0x56, 0x93, 0x4a, 0x2b, 0xab, 0x70, 0xdc, 0x13, 0xd1, 0x01, 0x04, 0x71, 0x51, 0xd9,
+	0x26, 0x7a, 0x01, 0x38, 0xef, 0xd8, 0xf7, 0x29, 0xa7, 0xaf, 0x35, 0x19, 0x8b, 0x21, 0x0c, 0x37,
+	0x42, 0x32, 0xef, 0x99, 0xf7, 0x72, 0xcc, 0xdb, 0xcf, 0xe8, 0xbb, 0x0f, 0xa7, 0x7d, 0x21, 0x27,
+	0x53, 0xa9, 0xd2, 0x10, 0x1e, 0x83, 0x9f, 0xa7, 0x37, 0x65, 0x7e, 0x9e, 0xe2, 0x23, 0x18, 0x7f,
+	0xae, 0xa5, 0x5c, 0x94, 0xa2, 0x20, 0xe6, 0x3b, 0xfa, 0x7e, 0x4b, 0x5c, 0x8a, 0x82, 0x5a, 0x51,
+	0x48, 0x4b, 0x7a, 0x41, 0x99, 0x62, 0xc3, 0xad, 0xe8, 0x88, 0x38, 0x53, 0x67, 0x3f, 0x3c, 0x80,
+	0x6b, 0xf5, 0x8d, 0xf4, 0xdc, 0x0a, 0x6b, 0x30, 0x82, 0xc3, 0xbc, 0xb4, 0x24, 0x65, 0x9e, 0x51,
+	0xb9, 0x22, 0xb7, 0x22, 0xe0, 0x7b, 0x1c, 0x32, 0x38, 0x30, 0x96, 0xca, 0xcc, 0xae, 0xdd, 0xaa,
+	0x80, 0x77, 0x10, 0x1f, 0x40, 0x60, 0x2a, 0xa2, 0xd4, 0x6d, 0x09, 0xf8, 0x16, 0xe0, 0x53, 0x80,
+	0xb4, 0xd6, 0x62, 0x99, 0xcb, 0xdc, 0x36, 0xec, 0x9e, 0x93, 0x6e, 0x31, 0x6d, 0x57, 0xd5, 0x3a,
+	0x60, 0xc1, 0xb6, 0xcb, 0x01, 0x7c, 0x08, 0xa3, 0x95, 0x2a, 0x96, 0xc2, 0xb2, 0x91, 0xa3, 0x6f,
+	0x50, 0xb4, 0x81, 0xa3, 0x39, 0x09, 0xbd, 0x5a, 0x77, 0x99, 0x4d, 0x60, 0xf8, 0x85, 0x1a, 0xe7,
+	0xf4, 0xf8, 0xfc, 0xf1, 0x64, 0x17, 0xfe, 0x5e, 0xd9, 0xe4, 0x82, 0x1a, 0xde, 0x16, 0x76, 0x19,
+	0xfb, 0xbb, 0x8c, 0x9f, 0xc3, 0xf0, 0x82, 0x1a, 0x3c, 0x82, 0xf1, 0xdb, 0x4f, 0xb3, 0xd9, 0xe2,
+	0x72, 0xfa, 0x21, 0x0e, 0x07, 0x2d, 0x9c, 0xce, 0x3e, 0xc6, 0x7c, 0x11, 0x27, 0x57, 0xa1, 0x77,
+	0xfe, 0xd3, 0x87, 0xb0, 0x3f, 0xc4, 0x9c, 0xf4, 0x26, 0x5f, 0x11, 0x26, 0x70, 0x9a, 0x90, 0x9d,
+	0x4a, 0xd9, 0x2b, 0x64, 0x30, 0xbc, 0xe5, 0xc1, 0x1d, 0xfb, 0x6c, 0xcf, 0xd5, 0xef, 0xc7, 0x8c,
+	0x06, 0xaf, 0x3c, 0xbc, 0x86, 0x93, 0x84, 0xec, 0x55, 0x49, 0xbd, 0x8c, 0x4f, 0xfe, 0xd6, 0xd4,
+	0xff, 0x2a, 0x77, 0xcd, 0xc4, 0x77, 0x70, 0x38, 0x4d, 0xd3, 0xdd, 0x38, 0xf6, 0xaf, 0x64, 0xee,
+	0x9c, 0x94, 0x00, 0xbe, 0x21, 0x49, 0x96, 0xfe, 0xc7, 0xde, 0x1f, 0x21, 0x44, 0x83, 0xe5, 0xc8,
+	0x3d, 0x87, 0xd7, 0xbf, 0x02, 0x00, 0x00, 0xff, 0xff, 0x5e, 0xf1, 0xc2, 0xe4, 0x21, 0x03, 0x00,
 	0x00,
 }
 
@@ -356,9 +353,9 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type SuperheroServiceClient interface {
 	GetAllSuperheroes(ctx context.Context, in *Empty, opts ...grpc.CallOption) (SuperheroService_GetAllSuperheroesClient, error)
-	GetOneSuperhero(ctx context.Context, in *SuperheroID, opts ...grpc.CallOption) (*Superhero, error)
-	AddSuperhero(ctx context.Context, in *SearchKeyVal, opts ...grpc.CallOption) (*Superhero, error)
-	DeleteOneSuperhero(ctx context.Context, in *SuperheroID, opts ...grpc.CallOption) (*Empty, error)
+	GetOneSuperhero(ctx context.Context, in *SuperheroIdRequest, opts ...grpc.CallOption) (*SuperheroResponse, error)
+	AddSuperhero(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SuperheroResponse, error)
+	DeleteOneSuperhero(ctx context.Context, in *SuperheroIdRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type superheroServiceClient struct {
@@ -385,7 +382,7 @@ func (c *superheroServiceClient) GetAllSuperheroes(ctx context.Context, in *Empt
 }
 
 type SuperheroService_GetAllSuperheroesClient interface {
-	Recv() (*Superhero, error)
+	Recv() (*SuperheroResponse, error)
 	grpc.ClientStream
 }
 
@@ -393,16 +390,16 @@ type superheroServiceGetAllSuperheroesClient struct {
 	grpc.ClientStream
 }
 
-func (x *superheroServiceGetAllSuperheroesClient) Recv() (*Superhero, error) {
-	m := new(Superhero)
+func (x *superheroServiceGetAllSuperheroesClient) Recv() (*SuperheroResponse, error) {
+	m := new(SuperheroResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *superheroServiceClient) GetOneSuperhero(ctx context.Context, in *SuperheroID, opts ...grpc.CallOption) (*Superhero, error) {
-	out := new(Superhero)
+func (c *superheroServiceClient) GetOneSuperhero(ctx context.Context, in *SuperheroIdRequest, opts ...grpc.CallOption) (*SuperheroResponse, error) {
+	out := new(SuperheroResponse)
 	err := c.cc.Invoke(ctx, "/superhero.SuperheroService/GetOneSuperhero", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -410,8 +407,8 @@ func (c *superheroServiceClient) GetOneSuperhero(ctx context.Context, in *Superh
 	return out, nil
 }
 
-func (c *superheroServiceClient) AddSuperhero(ctx context.Context, in *SearchKeyVal, opts ...grpc.CallOption) (*Superhero, error) {
-	out := new(Superhero)
+func (c *superheroServiceClient) AddSuperhero(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SuperheroResponse, error) {
+	out := new(SuperheroResponse)
 	err := c.cc.Invoke(ctx, "/superhero.SuperheroService/AddSuperhero", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -419,7 +416,7 @@ func (c *superheroServiceClient) AddSuperhero(ctx context.Context, in *SearchKey
 	return out, nil
 }
 
-func (c *superheroServiceClient) DeleteOneSuperhero(ctx context.Context, in *SuperheroID, opts ...grpc.CallOption) (*Empty, error) {
+func (c *superheroServiceClient) DeleteOneSuperhero(ctx context.Context, in *SuperheroIdRequest, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/superhero.SuperheroService/DeleteOneSuperhero", in, out, opts...)
 	if err != nil {
@@ -431,9 +428,9 @@ func (c *superheroServiceClient) DeleteOneSuperhero(ctx context.Context, in *Sup
 // SuperheroServiceServer is the server API for SuperheroService service.
 type SuperheroServiceServer interface {
 	GetAllSuperheroes(*Empty, SuperheroService_GetAllSuperheroesServer) error
-	GetOneSuperhero(context.Context, *SuperheroID) (*Superhero, error)
-	AddSuperhero(context.Context, *SearchKeyVal) (*Superhero, error)
-	DeleteOneSuperhero(context.Context, *SuperheroID) (*Empty, error)
+	GetOneSuperhero(context.Context, *SuperheroIdRequest) (*SuperheroResponse, error)
+	AddSuperhero(context.Context, *SearchRequest) (*SuperheroResponse, error)
+	DeleteOneSuperhero(context.Context, *SuperheroIdRequest) (*Empty, error)
 }
 
 func RegisterSuperheroServiceServer(s *grpc.Server, srv SuperheroServiceServer) {
@@ -449,7 +446,7 @@ func _SuperheroService_GetAllSuperheroes_Handler(srv interface{}, stream grpc.Se
 }
 
 type SuperheroService_GetAllSuperheroesServer interface {
-	Send(*Superhero) error
+	Send(*SuperheroResponse) error
 	grpc.ServerStream
 }
 
@@ -457,12 +454,12 @@ type superheroServiceGetAllSuperheroesServer struct {
 	grpc.ServerStream
 }
 
-func (x *superheroServiceGetAllSuperheroesServer) Send(m *Superhero) error {
+func (x *superheroServiceGetAllSuperheroesServer) Send(m *SuperheroResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
 func _SuperheroService_GetOneSuperhero_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SuperheroID)
+	in := new(SuperheroIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -474,13 +471,13 @@ func _SuperheroService_GetOneSuperhero_Handler(srv interface{}, ctx context.Cont
 		FullMethod: "/superhero.SuperheroService/GetOneSuperhero",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SuperheroServiceServer).GetOneSuperhero(ctx, req.(*SuperheroID))
+		return srv.(SuperheroServiceServer).GetOneSuperhero(ctx, req.(*SuperheroIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _SuperheroService_AddSuperhero_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchKeyVal)
+	in := new(SearchRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -492,13 +489,13 @@ func _SuperheroService_AddSuperhero_Handler(srv interface{}, ctx context.Context
 		FullMethod: "/superhero.SuperheroService/AddSuperhero",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SuperheroServiceServer).AddSuperhero(ctx, req.(*SearchKeyVal))
+		return srv.(SuperheroServiceServer).AddSuperhero(ctx, req.(*SearchRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _SuperheroService_DeleteOneSuperhero_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SuperheroID)
+	in := new(SuperheroIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -510,7 +507,7 @@ func _SuperheroService_DeleteOneSuperhero_Handler(srv interface{}, ctx context.C
 		FullMethod: "/superhero.SuperheroService/DeleteOneSuperhero",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SuperheroServiceServer).DeleteOneSuperhero(ctx, req.(*SuperheroID))
+		return srv.(SuperheroServiceServer).DeleteOneSuperhero(ctx, req.(*SuperheroIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

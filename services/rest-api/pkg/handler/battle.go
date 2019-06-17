@@ -6,7 +6,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/jace-ys/super-smash-heroes/services/rest-api/pkg/response"
+	"github.com/jace-ys/super-smash-heroes/libraries/go/response"
 
 	pb "github.com/jace-ys/super-smash-heroes/api/proto/generated/go/battle"
 )
@@ -27,6 +27,7 @@ func (c *BattleServiceClient) GetBattleResult(w http.ResponseWriter, r *http.Req
 		response.SendError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+
 	client := pb.NewBattleServiceClient(c.conn)
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
@@ -35,10 +36,11 @@ func (c *BattleServiceClient) GetBattleResult(w http.ResponseWriter, r *http.Req
 		Id2: battleReq.id2,
 	})
 	if err != nil {
-		response.SendError(w, http.StatusNotFound, err.Error())
+		response.HandleGrpcError(w, err)
 		return
 	}
-	response.SendJSON(w, http.StatusOK, map[string]string{"victorID": battleRes.GetVictorId()})
+
+	response.SendJSON(w, http.StatusOK, response.EncodePbToJSON(battleRes))
 	return
 }
 

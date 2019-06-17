@@ -3,21 +3,21 @@ syntax = "proto3";
 package superhero;
 
 service SuperheroService {
-  rpc GetAllSuperheroes(Empty) returns (stream Superhero) {}
-  rpc GetOneSuperhero(SuperheroID) returns (Superhero) {}
-  rpc AddSuperhero(SearchKeyVal) returns (Superhero) {}
-  rpc DeleteOneSuperhero(SuperheroID) returns (Empty) {}
+  rpc GetAllSuperheroes(Empty) returns (stream SuperheroResponse) {}
+  rpc GetOneSuperhero(SuperheroIdRequest) returns (SuperheroResponse) {}
+  rpc AddSuperhero(SearchRequest) returns (SuperheroResponse) {}
+  rpc DeleteOneSuperhero(SuperheroIdRequest) returns (Empty) {}
 }
 
 message Empty {
 
 }
 
-message SuperheroID {
+message SuperheroIdRequest {
   string val = 1;
 }
 
-message Superhero {
+message SuperheroResponse {
   string id = 1;
   string full_name = 2;
   string alter_ego = 3;
@@ -31,11 +31,10 @@ message Superhero {
   }
 }
 
-message SearchKeyVal {
+message SearchRequest {
   enum Key {
-    ID = 0;
-    FULL_NAME = 1;
-    ALTER_EGO = 2;
+    FULL_NAME = 0;
+    ALTER_EGO = 1;
   }
   Key key = 1;
   string val = 2;

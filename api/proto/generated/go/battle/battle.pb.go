@@ -69,39 +69,39 @@ func (m *BattleRequest) GetId2() string {
 	return ""
 }
 
-type BattleResult struct {
+type BattleResponse struct {
 	VictorId             string   `protobuf:"bytes,1,opt,name=victorId,proto3" json:"victorId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *BattleResult) Reset()         { *m = BattleResult{} }
-func (m *BattleResult) String() string { return proto.CompactTextString(m) }
-func (*BattleResult) ProtoMessage()    {}
-func (*BattleResult) Descriptor() ([]byte, []int) {
+func (m *BattleResponse) Reset()         { *m = BattleResponse{} }
+func (m *BattleResponse) String() string { return proto.CompactTextString(m) }
+func (*BattleResponse) ProtoMessage()    {}
+func (*BattleResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_88d4c72b5869c382, []int{1}
 }
 
-func (m *BattleResult) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BattleResult.Unmarshal(m, b)
+func (m *BattleResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BattleResponse.Unmarshal(m, b)
 }
-func (m *BattleResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BattleResult.Marshal(b, m, deterministic)
+func (m *BattleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BattleResponse.Marshal(b, m, deterministic)
 }
-func (m *BattleResult) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BattleResult.Merge(m, src)
+func (m *BattleResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BattleResponse.Merge(m, src)
 }
-func (m *BattleResult) XXX_Size() int {
-	return xxx_messageInfo_BattleResult.Size(m)
+func (m *BattleResponse) XXX_Size() int {
+	return xxx_messageInfo_BattleResponse.Size(m)
 }
-func (m *BattleResult) XXX_DiscardUnknown() {
-	xxx_messageInfo_BattleResult.DiscardUnknown(m)
+func (m *BattleResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_BattleResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_BattleResult proto.InternalMessageInfo
+var xxx_messageInfo_BattleResponse proto.InternalMessageInfo
 
-func (m *BattleResult) GetVictorId() string {
+func (m *BattleResponse) GetVictorId() string {
 	if m != nil {
 		return m.VictorId
 	}
@@ -110,23 +110,23 @@ func (m *BattleResult) GetVictorId() string {
 
 func init() {
 	proto.RegisterType((*BattleRequest)(nil), "battle.BattleRequest")
-	proto.RegisterType((*BattleResult)(nil), "battle.BattleResult")
+	proto.RegisterType((*BattleResponse)(nil), "battle.BattleResponse")
 }
 
 func init() { proto.RegisterFile("battle.proto", fileDescriptor_88d4c72b5869c382) }
 
 var fileDescriptor_88d4c72b5869c382 = []byte{
-	// 145 bytes of a gzipped FileDescriptorProto
+	// 151 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x49, 0x4a, 0x2c, 0x29,
 	0xc9, 0x49, 0xd5, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x83, 0xf0, 0x94, 0x8c, 0xb9, 0x78,
 	0x9d, 0xc0, 0xac, 0xa0, 0xd4, 0xc2, 0xd2, 0xd4, 0xe2, 0x12, 0x21, 0x01, 0x2e, 0xe6, 0xcc, 0x14,
 	0x43, 0x09, 0x46, 0x05, 0x46, 0x0d, 0xce, 0x20, 0x10, 0x13, 0x22, 0x62, 0x24, 0xc1, 0x04, 0x13,
-	0x31, 0x52, 0xd2, 0xe2, 0xe2, 0x81, 0x69, 0x2a, 0x2e, 0xcd, 0x29, 0x11, 0x92, 0xe2, 0xe2, 0x28,
-	0xcb, 0x4c, 0x2e, 0xc9, 0x2f, 0xf2, 0x4c, 0x81, 0x6a, 0x84, 0xf3, 0x8d, 0x02, 0x61, 0x16, 0x04,
-	0xa7, 0x16, 0x95, 0x65, 0x26, 0xa7, 0x0a, 0x39, 0x70, 0xf1, 0xbb, 0xa7, 0x96, 0xa0, 0xe8, 0x17,
-	0xd5, 0x83, 0xba, 0x0d, 0xc5, 0x29, 0x52, 0x22, 0xe8, 0xc2, 0x20, 0xc5, 0x4a, 0x0c, 0x49, 0x6c,
-	0x60, 0x2f, 0x18, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x3d, 0x6f, 0xb8, 0xcd, 0xd2, 0x00, 0x00,
-	0x00,
+	0x31, 0x52, 0xd2, 0xe1, 0xe2, 0x83, 0x69, 0x2a, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e, 0x15, 0x92, 0xe2,
+	0xe2, 0x28, 0xcb, 0x4c, 0x2e, 0xc9, 0x2f, 0xf2, 0x4c, 0x81, 0x6a, 0x85, 0xf3, 0x8d, 0x82, 0x61,
+	0x56, 0x04, 0xa7, 0x16, 0x95, 0x65, 0x26, 0xa7, 0x0a, 0x39, 0x71, 0xf1, 0xbb, 0xa7, 0x96, 0xc0,
+	0x4d, 0x28, 0xcd, 0x29, 0x11, 0x12, 0xd5, 0x83, 0xba, 0x0e, 0xc5, 0x31, 0x52, 0x62, 0xe8, 0xc2,
+	0x10, 0xeb, 0x94, 0x18, 0x92, 0xd8, 0xc0, 0xde, 0x30, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0xc9,
+	0xa7, 0x27, 0x32, 0xd6, 0x00, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -141,7 +141,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BattleServiceClient interface {
-	GetBattleResult(ctx context.Context, in *BattleRequest, opts ...grpc.CallOption) (*BattleResult, error)
+	GetBattleResult(ctx context.Context, in *BattleRequest, opts ...grpc.CallOption) (*BattleResponse, error)
 }
 
 type battleServiceClient struct {
@@ -152,8 +152,8 @@ func NewBattleServiceClient(cc *grpc.ClientConn) BattleServiceClient {
 	return &battleServiceClient{cc}
 }
 
-func (c *battleServiceClient) GetBattleResult(ctx context.Context, in *BattleRequest, opts ...grpc.CallOption) (*BattleResult, error) {
-	out := new(BattleResult)
+func (c *battleServiceClient) GetBattleResult(ctx context.Context, in *BattleRequest, opts ...grpc.CallOption) (*BattleResponse, error) {
+	out := new(BattleResponse)
 	err := c.cc.Invoke(ctx, "/battle.BattleService/GetBattleResult", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -163,7 +163,7 @@ func (c *battleServiceClient) GetBattleResult(ctx context.Context, in *BattleReq
 
 // BattleServiceServer is the server API for BattleService service.
 type BattleServiceServer interface {
-	GetBattleResult(context.Context, *BattleRequest) (*BattleResult, error)
+	GetBattleResult(context.Context, *BattleRequest) (*BattleResponse, error)
 }
 
 func RegisterBattleServiceServer(s *grpc.Server, srv BattleServiceServer) {
