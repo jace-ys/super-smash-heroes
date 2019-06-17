@@ -6,13 +6,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-const (
-	battleServerAddress     = "service.battle:3000"
-	supherheroServerAddress = "service.superhero:3000"
-)
-
 var (
-	timeout = time.Second * 10
+	timeout                 = time.Second * 10
+	battleServerAddress     = "localhost:3000"
+	supherheroServerAddress = "localhost:3001"
 )
 
 type Handler struct {

@@ -7,13 +7,11 @@ services:
     ports:
       - 8001:80
     volumes:
-      - ./config/viaduct-config.yaml:/config/config.yaml
+      - ./config/viaduct.yaml:/config/config.yaml
 
   service.rest-api:
     image: super-smash-heroes/service.rest-api:latest
     container_name: service.rest-api
-    ports:
-      - 8002:80
 
   service.superhero:
     image: super-smash-heroes/service.superhero:latest

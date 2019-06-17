@@ -21,6 +21,7 @@ message SuperheroResponse {
   string id = 1;
   string full_name = 2;
   string alter_ego = 3;
+  string image_url = 4;
   message PowerStats {
     int32 intelligence = 1;
     int32 stength = 2;
@@ -32,10 +33,6 @@ message SuperheroResponse {
 }
 
 message SearchRequest {
-  enum Key {
-    FULL_NAME = 0;
-    ALTER_EGO = 1;
-  }
-  Key key = 1;
-  string val = 2;
+  string full_name = 1;
+  string alter_ego = 2;
 }

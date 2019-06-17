@@ -5,13 +5,11 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
 
 	"github.com/jace-ys/super-smash-heroes/libraries/go/response"
-	"github.com/jace-ys/super-smash-heroes/libraries/go/utils"
 
 	pb "github.com/jace-ys/super-smash-heroes/api/proto/generated/go/superhero"
 )
@@ -63,38 +61,26 @@ func (c *SuperheroServiceClient) GetOneSuperhero(w http.ResponseWriter, r *http.
 	response.SendJSON(w, http.StatusOK, response.EncodePbToJSON(superhero))
 }
 
+type searchRequest struct {
+	FullName string `json:"fullName"`
+	AlterEgo string `json:"alterEgo"`
+}
+
 func (c *SuperheroServiceClient) AddSuperhero(w http.ResponseWriter, r *http.Request) {
+	var s searchRequest
 	decoder := json.NewDecoder(r.Body)
-	var s map[string]string
 	err := decoder.Decode(&s)
 	if err != nil {
 		response.SendError(w, http.StatusBadRequest, err.Error())
 		return
-	}
-	if len(s) > 1 {
-		response.SendError(w, http.StatusBadRequest, errInvalidRequest.Error())
-		return
-	}
-
-	var key int32
-	var val string
-	for k, v := range s {
-		k = strings.ToUpper(utils.CamelToSnakeCase(k))
-		k, ok := pb.SearchRequest_Key_value[k]
-		if !ok {
-			response.SendError(w, http.StatusBadRequest, errInvalidRequest.Error())
-			return
-		}
-		key = k
-		val = v
 	}
 
 	client := pb.NewSuperheroServiceClient(c.conn)
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 	superhero, err := client.AddSuperhero(ctx, &pb.SearchRequest{
-		Key: pb.SearchRequest_Key(key),
-		Val: val,
+		FullName: s.FullName,
+		AlterEgo: s.AlterEgo,
 	})
 	if err != nil {
 		response.HandleGrpcError(w, err)
