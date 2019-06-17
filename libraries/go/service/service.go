@@ -7,12 +7,14 @@ import (
 )
 
 type Service interface {
-	Register()
+	Init()
 	Serve(lis net.Listener) error
+	Shutdown()
 }
 
 func StartServer(s Service, port int) {
-	s.Register()
+	s.Init()
+	defer s.Shutdown()
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatal(err)

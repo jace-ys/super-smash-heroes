@@ -21,11 +21,13 @@ services:
     image: super-smash-heroes/service.battle:latest
     container_name: service.battle
 
-  # db.superhero:
-  #   image: postgres:11.2-alpine
-  #   container_name: db.superhero
-  #   environment:
-  #     - POSTGRES_PASSWORD=mysecretpassword
-  #   volumes:
-  #     - ./postgres/migrations:/docker-entrypoint-initdb.d
-  #     - ./postgres/data:/var/lib/postgresql/data
+  db.superhero:
+    image: postgres:11.2-alpine
+    container_name: db.superhero
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+    volumes:
+      - ./postgres/migrations:/docker-entrypoint-initdb.d
+      # - ./postgres/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432

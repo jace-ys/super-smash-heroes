@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/jace-ys/super-smash-heroes/libraries/go/response"
+	"github.com/jace-ys/super-smash-heroes/libraries/go/superhero"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -14,30 +15,15 @@ import (
 )
 
 var (
-	baseSuperheroAPI = fmt.Sprintf("%s/%s", "https://superheroapi.com/api", os.Getenv("SUPERHERO_API_ACCESS_TOKEN"))
+	baseUriSuperheroAPI = fmt.Sprintf("%s/%s", "https://superheroapi.com/api", os.Getenv("SUPERHERO_API_ACCESS_TOKEN"))
 )
 
-var mock = []*pb.SuperheroResponse{
-	&pb.SuperheroResponse{
-		Id:       "1",
-		FullName: "Oliver Queen",
-	},
-	&pb.SuperheroResponse{
-		Id:       "2",
-		FullName: "Kara Zor-El",
-	},
-	&pb.SuperheroResponse{
-		Id:       "3",
-		FullName: "Barry Allen",
-	},
-	&pb.SuperheroResponse{
-		Id:       "4",
-		FullName: "Peter Parker",
-	},
-}
-
 func (s *superheroService) GetAllSuperheroes(empty *pb.Empty, stream pb.SuperheroService_GetAllSuperheroesServer) error {
-	for _, superhero := range mock {
+	superheroes, err := s.psql.GetAll()
+	if err != nil {
+		return status.Error(codes.NotFound, errSuperheroDoesNotExist.Error())
+	}
+	for _, superhero := range superheroes {
 		if err := stream.Send(superhero); err != nil {
 			return err
 		}
@@ -52,22 +38,22 @@ func (s *superheroService) GetOneSuperhero(ctx context.Context, id *pb.Superhero
 }
 
 func (s *superheroService) AddSuperhero(ctx context.Context, sr *pb.SearchRequest) (*pb.SuperheroResponse, error) {
-	resp, err := http.Get(fmt.Sprintf("%s/search/%s", baseSuperheroAPI, sr.GetAlterEgo()))
+	resp, err := http.Get(fmt.Sprintf("%s/search/%s", baseUriSuperheroAPI, sr.GetAlterEgo()))
 	if err != nil {
 		return nil, status.Error(codes.Internal, errInternalServerError.Error())
 	}
 	defer resp.Body.Close()
 
-	var res Response
-	err = response.Decode(resp.Body, &res)
+	var r superhero.Response
+	err = response.Decode(resp.Body, &r)
 	if err != nil {
 		return nil, status.Error(codes.Internal, errInternalServerError.Error())
 	}
-	if res.Response == "error" {
+	if r.Response == "error" {
 		return nil, status.Error(codes.NotFound, errSuperheroDoesNotExist.Error())
 	}
 
-	for _, superhero := range res.Results {
+	for _, superhero := range r.Results {
 		if superhero.AlterEgo == sr.GetAlterEgo() && superhero.Biography.FullName == sr.GetFullName() {
 			return &pb.SuperheroResponse{
 				FullName: sr.GetFullName(),
