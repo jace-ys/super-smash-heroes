@@ -107,7 +107,7 @@ func determineWinner(p1, p2 *superhero.Powerstats) int {
 func sumWithMultiplier(stats []string) float32 {
 	rand.Seed(time.Now().UnixNano())
 	var total float32
-	for i, stat := range stats {
+	for _, stat := range stats {
 		total += float32(utils.Atoi(stat)) * rand.Float32()
 	}
 	return total

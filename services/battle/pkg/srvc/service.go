@@ -16,8 +16,9 @@ func NewService() *battleService {
 	}
 }
 
-func (s *battleService) Init() {
+func (s *battleService) Init() error {
 	pb.RegisterBattleServiceServer(s.Server, s)
+	return nil
 }
 
 func (s *battleService) Shutdown() {

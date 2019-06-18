@@ -2,7 +2,6 @@ package srvc
 
 import (
 	"fmt"
-	"log"
 
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
@@ -32,14 +31,15 @@ func NewService() *superheroService {
 	}
 }
 
-func (s *superheroService) Init() {
+func (s *superheroService) Init() error {
 	pb.RegisterSuperheroServiceServer(s.Server, s)
 	psqlSourceInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable dbname=%s", host, port, user, password, dbname)
 	psqlClient, err := psql.Open(psqlSourceInfo)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	s.psql = psqlClient
+	return nil
 }
 
 func (s *superheroService) Shutdown() {
