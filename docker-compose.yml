@@ -19,6 +19,9 @@ services:
     depends_on:
       - db.superhero
     env_file: .env
+    volumes:
+      - ./libraries/sh:/usr/src/app/scripts
+    command: ["./scripts/wait-for-it/wait-for-it.sh", "db.superhero:5432", "--", "./main_docker"]
 
   service.battle:
     image: super-smash-heroes/service.battle:latest
@@ -32,6 +35,4 @@ services:
       - POSTGRES_PASSWORD=mysecretpassword
     volumes:
       - ./postgres/migrations:/docker-entrypoint-initdb.d
-      # - ./postgres/data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+      - ./postgres/data:/var/lib/postgresql/data

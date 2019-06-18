@@ -35,11 +35,11 @@ func HandleGrpcError(w http.ResponseWriter, err error) {
 		log.Printf("gRPC error - %s: %s\n", s.Code(), s.Message())
 		switch s.Code() {
 		case codes.NotFound:
-			SendError(w, http.StatusNotFound, s.Message())
+			SendError(w, http.StatusNotFound, err.Error())
 		case codes.AlreadyExists:
 			SendError(w, http.StatusBadRequest, err.Error())
 		case codes.Internal:
-			SendError(w, http.StatusInternalServerError, s.Message())
+			SendError(w, http.StatusInternalServerError, err.Error())
 		default:
 			SendError(w, http.StatusInternalServerError, err.Error())
 		}
