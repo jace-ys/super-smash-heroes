@@ -16,6 +16,10 @@ func NewService() *battleService {
 	}
 }
 
-func (s *battleService) Register() {
+func (s *battleService) Init() {
 	pb.RegisterBattleServiceServer(s.Server, s)
+}
+
+func (s *battleService) Shutdown() {
+	s.Server.Stop()
 }

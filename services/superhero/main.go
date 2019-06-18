@@ -7,5 +7,5 @@ import (
 
 func main() {
 	s := srvc.NewService()
-	service.StartServer(s, 3001)
+	service.StartServer(s, 3000)
 }

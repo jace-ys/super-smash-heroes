@@ -14,11 +14,11 @@ message Empty {
 }
 
 message SuperheroIdRequest {
-  string val = 1;
+  int32 val = 1;
 }
 
 message SuperheroResponse {
-  string id = 1;
+  int32 id = 1;
   string full_name = 2;
   string alter_ego = 3;
   string image_url = 4;

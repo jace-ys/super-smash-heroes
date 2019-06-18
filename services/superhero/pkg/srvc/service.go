@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	host     = "localhost"
+	host     = "db.superhero"
 	port     = 5432
 	user     = "postgres"
 	password = "mysecretpassword"

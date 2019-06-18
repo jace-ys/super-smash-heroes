@@ -3,13 +3,11 @@ package handler
 import (
 	"time"
 
-	"google.golang.org/grpc"
+	"github.com/jace-ys/super-smash-heroes/libraries/go/service"
 )
 
 var (
-	timeout                 = time.Second * 10
-	battleServerAddress     = "localhost:3000"
-	supherheroServerAddress = "localhost:3001"
+	timeout = time.Second * 10
 )
 
 type Handler struct {
@@ -18,37 +16,21 @@ type Handler struct {
 }
 
 func InitServiceClients() (*Handler, error) {
-	battleClient, err := createBattleClient()
+	battleServiceConn, err := service.CreateClientConn(service.BattleServerAddress)
 	if err != nil {
 		return nil, err
 	}
-	superheroClient, err := createSuperheroClient()
+	superheroServiceConn, err := service.CreateClientConn(service.SuperheroServerAddress)
 	if err != nil {
 		return nil, err
 	}
 	return &Handler{
-		battleClient,
-		superheroClient,
+		&BattleServiceClient{battleServiceConn},
+		&SuperheroServiceClient{superheroServiceConn},
 	}, nil
 }
 
 func (h *Handler) TeardownClients() {
 	h.BattleServiceClient.conn.Close()
 	h.SuperheroServiceClient.conn.Close()
-}
-
-func createBattleClient() (*BattleServiceClient, error) {
-	conn, err := grpc.Dial(battleServerAddress, grpc.WithInsecure())
-	if err != nil {
-		return nil, err
-	}
-	return &BattleServiceClient{conn}, nil
-}
-
-func createSuperheroClient() (*SuperheroServiceClient, error) {
-	conn, err := grpc.Dial(supherheroServerAddress, grpc.WithInsecure())
-	if err != nil {
-		return nil, err
-	}
-	return &SuperheroServiceClient{conn}, nil
 }

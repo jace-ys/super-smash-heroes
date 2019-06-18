@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/jace-ys/super-smash-heroes/libraries/go/errors"
+
 	pb "github.com/jace-ys/super-smash-heroes/api/proto/generated/go/superhero"
 )
 
@@ -32,44 +34,6 @@ func (psql *Client) Close() error {
 	return psql.db.Close()
 }
 
-// func (psql *psqlClient) Insert(table, number string) (int, error) {
-// 	var id int
-// 	query := fmt.Sprintf("INSERT INTO %s (num) VALUES ($1) RETURNING id", table)
-// 	err := psql.db.QueryRow(query, number).Scan(&id)
-// 	if err != nil {
-// 		return -1, err
-// 	}
-// 	return id, nil
-// }
-//
-// func (psql *psqlClient) Find(table string, number string) (*phone.Number, error) {
-// 	var row phone.Number
-// 	query := fmt.Sprintf("SELECT * FROM %s WHERE num=$1", table)
-// 	rows := psql.db.QueryRow(query, number)
-// 	err := rows.Scan(&row.ID, &row.Number)
-// 	if err != nil {
-// 		switch {
-// 		case err == sql.ErrNoRows:
-// 			return nil, nil
-// 		default:
-// 			return nil, err
-// 		}
-// 	}
-// 	return &row, nil
-// }
-//
-// func (psql *psqlClient) Update(table string, p *phone.Number) error {
-// 	statement := fmt.Sprintf("UPDATE %s SET num=$1 WHERE id=$2", table)
-// 	_, err := psql.db.Exec(statement, p.Number, p.ID)
-// 	return err
-// }
-//
-// func (psql *psqlClient) Delete(table string, id int) error {
-// 	statement := fmt.Sprintf("DELETE FROM %s WHERE id=$1", table)
-// 	_, err := psql.db.Exec(statement, id)
-// 	return err
-// }
-
 func (c *Client) GetAll() ([]*pb.SuperheroResponse, error) {
 	query := fmt.Sprintf("SELECT * FROM %s", table)
 	rows, err := c.db.Query(query)
@@ -88,4 +52,55 @@ func (c *Client) GetAll() ([]*pb.SuperheroResponse, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+func (c *Client) FindById(id int32) (*pb.SuperheroResponse, error) {
+	var row pb.SuperheroResponse
+	query := fmt.Sprintf("SELECT * FROM %s WHERE id=$1", table)
+	rows := c.db.QueryRow(query, id)
+	err := rows.Scan(&row.Id, &row.FullName, &row.AlterEgo, &row.ImageUrl)
+	switch {
+	case err == sql.ErrNoRows:
+		return nil, errors.SuperheroNotFound
+	case err != nil:
+		return nil, err
+	}
+	return &row, nil
+}
+
+func (c *Client) Find(key, val string) (*pb.SuperheroResponse, error) {
+	var row pb.SuperheroResponse
+	query := fmt.Sprintf("SELECT * FROM %s WHERE %s=$1", table, key)
+	rows := c.db.QueryRow(query, val)
+	err := rows.Scan(&row.Id, &row.FullName, &row.AlterEgo, &row.ImageUrl)
+	switch {
+	case err == sql.ErrNoRows:
+		return nil, errors.SuperheroNotFound
+	case err != nil:
+		return nil, err
+	}
+	return &row, nil
+}
+
+func (c *Client) Insert(s *pb.SuperheroResponse) (int32, error) {
+	found, _ := c.Find("full_name", s.FullName)
+	if found != nil {
+		return -1, errors.SuperheroExists
+	}
+	var id int32
+	query := fmt.Sprintf("INSERT INTO %s (full_name, alter_ego, image_url) VALUES ($1, $2, $3) RETURNING id", table)
+	err := c.db.QueryRow(query, s.FullName, s.AlterEgo, s.ImageUrl).Scan(&id)
+	if err != nil {
+		return -1, err
+	}
+	return id, nil
+}
+
+func (psql *Client) Delete(id int32) error {
+	statement := fmt.Sprintf("DELETE FROM %s WHERE id=$1", table)
+	_, err := psql.db.Exec(statement, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }

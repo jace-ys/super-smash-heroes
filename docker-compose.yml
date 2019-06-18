@@ -16,10 +16,14 @@ services:
   service.superhero:
     image: super-smash-heroes/service.superhero:latest
     container_name: service.superhero
+    depends_on:
+      - db.superhero
+    env_file: .env
 
   service.battle:
     image: super-smash-heroes/service.battle:latest
     container_name: service.battle
+    env_file: .env
 
   db.superhero:
     image: postgres:11.2-alpine

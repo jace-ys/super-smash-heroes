@@ -1,5 +1,18 @@
 package superhero
 
+import (
+	"fmt"
+	"os"
+)
+
+func GetBaseUri() string {
+	accessToken, ok := os.LookupEnv("SUPERHERO_API_ACCESS_TOKEN")
+	if !ok {
+		return ""
+	}
+	return fmt.Sprintf("%s/%s", "https://superheroapi.com/api", accessToken)
+}
+
 type Response struct {
 	Response string    `json:"response"`
 	Results  []Results `json:"results"`

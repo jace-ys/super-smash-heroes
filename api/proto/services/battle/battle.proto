@@ -7,10 +7,10 @@ service BattleService {
 }
 
 message BattleRequest {
-  string id1 = 1;
-  string id2 = 2;
+  int32 id1 = 1;
+  int32 id2 = 2;
 }
 
 message BattleResponse {
-  string victorId = 1;
+  int32 winnerId = 1;
 }

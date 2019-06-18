@@ -6,7 +6,9 @@ import (
 
 	"google.golang.org/grpc"
 
+	"github.com/jace-ys/super-smash-heroes/libraries/go/errors"
 	"github.com/jace-ys/super-smash-heroes/libraries/go/response"
+	"github.com/jace-ys/super-smash-heroes/libraries/go/utils"
 
 	pb "github.com/jace-ys/super-smash-heroes/api/proto/generated/go/battle"
 )
@@ -16,8 +18,8 @@ type BattleServiceClient struct {
 }
 
 type battleRequest struct {
-	id1 string
-	id2 string
+	id1 int32
+	id2 int32
 }
 
 func (c *BattleServiceClient) GetBattleResult(w http.ResponseWriter, r *http.Request) {
@@ -46,24 +48,24 @@ func (c *BattleServiceClient) GetBattleResult(w http.ResponseWriter, r *http.Req
 
 func verifyBattleRequest(q map[string][]string) (*battleRequest, error) {
 	if len(q) > 2 {
-		return nil, errInvalidRequest
+		return nil, errors.InvalidRequest
 	}
 	id1, ok := q["id1"]
 	if !ok {
-		return nil, errMissingID
+		return nil, errors.MissingID
 	}
 	if len(id1) > 1 {
-		return nil, errInvalidRequest
+		return nil, errors.InvalidRequest
 	}
 	id2, ok := q["id2"]
 	if !ok {
-		return nil, errMissingID
+		return nil, errors.MissingID
 	}
 	if len(id2) > 1 {
-		return nil, errInvalidRequest
+		return nil, errors.InvalidRequest
 	}
 	return &battleRequest{
-		id1: id1[0],
-		id2: id2[0],
+		id1: int32(utils.Atoi(id1[0])),
+		id2: int32(utils.Atoi(id2[0])),
 	}, nil
 }

@@ -27,10 +27,6 @@ func Init() (*server, error) {
 	return s, nil
 }
 
-func (s *server) createHandlers() {
-
-}
-
 func (s *server) createEndpoints() {
 	s.Router.Get("/superheroes", s.Handler.SuperheroServiceClient.GetAllSuperheroes)
 	s.Router.Get("/superheroes/{id}", s.Handler.SuperheroServiceClient.GetOneSuperhero)
