@@ -3,15 +3,18 @@ package psql
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"time"
 
+	"github.com/jace-ys/super-smash-heroes/libraries/go/config"
 	"github.com/jace-ys/super-smash-heroes/libraries/go/errors"
 
 	pb "github.com/jace-ys/super-smash-heroes/api/proto/generated/go/superhero"
 )
 
-const (
+var (
 	driver = "postgres"
-	table  = "superheroes"
+	table  = config.Get("db.superhero.table").String("superheroes")
 )
 
 type Client struct {
@@ -19,15 +22,19 @@ type Client struct {
 }
 
 func Open(dataSource string) (*Client, error) {
-	db, err := sql.Open(driver, dataSource)
-	if err != nil {
-		return nil, err
+	for {
+		db, err := sql.Open(driver, dataSource)
+		if err != nil {
+			return nil, err
+		}
+		err = db.Ping()
+		if err == nil {
+			return &Client{db}, nil
+		}
+		log.Println("Retrying connection to database")
+		retryInterval := config.Get("db.superhero.retry.interval").Int(5)
+		time.Sleep(time.Second * time.Duration(retryInterval))
 	}
-	err = db.Ping()
-	if err != nil {
-		return nil, err
-	}
-	return &Client{db}, nil
 }
 
 func (psql *Client) Close() error {

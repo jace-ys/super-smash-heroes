@@ -1,0 +1,24 @@
+service:
+  api-gateway:
+    host: service.api-gateway
+    port: 8001
+
+  rest-api:
+    host: service.rest-api
+    port: 80
+
+  superhero:
+    host: service.superhero
+    port: 3000
+
+  battle:
+    host: service.battle
+    port: 3000
+
+db:
+  superhero:
+    host: db.superhero
+    port: 5432
+    table: superheroes
+    retry:
+      interval: 3

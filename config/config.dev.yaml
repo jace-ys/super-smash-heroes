@@ -1,0 +1,20 @@
+service:
+  rest-api:
+    host: localhost
+    port: 3000
+
+  superhero:
+    host: localhost
+    port: 3001
+
+  battle:
+    host: localhost
+    port: 3002
+
+db:
+  superhero:
+    host: localhost
+    port: 5432
+    table: superheroes
+    retry:
+      interval: 3

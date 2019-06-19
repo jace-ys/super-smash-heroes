@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/jace-ys/super-smash-heroes/libraries/go/config"
 	"github.com/jace-ys/super-smash-heroes/services/rest-api/pkg/server"
 )
 
@@ -12,5 +13,6 @@ func main() {
 		log.Fatal(err)
 	}
 	defer apiServer.Shutdown()
-	apiServer.Start(80)
+	port := config.Get("service.rest-api.port").Int(80)
+	apiServer.Start(port)
 }

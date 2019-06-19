@@ -12,6 +12,10 @@ services:
   service.rest-api:
     image: super-smash-heroes/service.rest-api:latest
     container_name: service.rest-api
+    environment:
+      - CONFIG_FILE=config/config.prod.yaml
+    volumes:
+      - ./config:/usr/src/app/config
 
   service.superhero:
     image: super-smash-heroes/service.superhero:latest
@@ -19,7 +23,10 @@ services:
     depends_on:
       - db.superhero
     env_file: .env
+    environment:
+      - CONFIG_FILE=config/config.prod.yaml
     volumes:
+      - ./config:/usr/src/app/config
       - ./libraries/sh:/usr/src/app/scripts
     command: ["./scripts/wait-for-it/wait-for-it.sh", "db.superhero:5432", "--", "./main_docker"]
 
@@ -27,6 +34,10 @@ services:
     image: super-smash-heroes/service.battle:latest
     container_name: service.battle
     env_file: .env
+    environment:
+      - CONFIG_FILE=config/config.prod.yaml
+    volumes:
+      - ./config:/usr/src/app/config
 
   db.superhero:
     image: postgres:11.2-alpine

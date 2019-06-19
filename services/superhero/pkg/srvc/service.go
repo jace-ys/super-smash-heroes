@@ -6,14 +6,15 @@ import (
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 
+	"github.com/jace-ys/super-smash-heroes/libraries/go/config"
 	"github.com/jace-ys/super-smash-heroes/services/superhero/pkg/psql"
 
 	pb "github.com/jace-ys/super-smash-heroes/api/proto/generated/go/superhero"
 )
 
-const (
-	host     = "db.superhero"
-	port     = 5432
+var (
+	host     = config.Get("db.superhero.host").String("localhost")
+	port     = config.Get("db.superhero.host").Int(5432)
 	user     = "postgres"
 	password = "mysecretpassword"
 	dbname   = "postgres"
