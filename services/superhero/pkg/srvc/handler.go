@@ -16,7 +16,7 @@ import (
 )
 
 func (s *superheroService) GetAllSuperheroes(empty *pb.Empty, stream pb.SuperheroService_GetAllSuperheroesServer) error {
-	superheroes, err := s.psql.GetAll()
+	superheroes, err := s.db.GetAll()
 	if err != nil {
 		return status.Error(codes.NotFound, errors.SuperheroesNotFound.Error())
 	}
@@ -29,7 +29,7 @@ func (s *superheroService) GetAllSuperheroes(empty *pb.Empty, stream pb.Superher
 }
 
 func (s *superheroService) GetOneSuperhero(ctx context.Context, id *pb.SuperheroIdRequest) (*pb.SuperheroResponse, error) {
-	superhero, err := s.psql.FindById(id.GetVal())
+	superhero, err := s.db.FindByID(id.GetVal())
 	if err != nil {
 		return nil, status.Error(codes.NotFound, errors.SuperheroNotFound.Error())
 	}
@@ -37,11 +37,11 @@ func (s *superheroService) GetOneSuperhero(ctx context.Context, id *pb.Superhero
 }
 
 func (s *superheroService) AddSuperhero(ctx context.Context, sr *pb.SearchRequest) (*pb.SuperheroResponse, error) {
-	baseUri := superhero.GetBaseUri()
-	if baseUri == "" {
+	baseURI := superhero.GetBaseURI()
+	if baseURI == "" {
 		return nil, status.Error(codes.Internal, errors.MissingAccessToken.Error())
 	}
-	resp, err := http.Get(fmt.Sprintf("%s/search/%s", baseUri, sr.GetAlterEgo()))
+	resp, err := http.Get(fmt.Sprintf("%s/search/%s", baseURI, sr.GetAlterEgo()))
 	if err != nil {
 		return nil, status.Error(codes.Internal, errors.InternalServerError.Error())
 	}
@@ -63,7 +63,7 @@ func (s *superheroService) AddSuperhero(ctx context.Context, sr *pb.SearchReques
 				AlterEgo: superhero.AlterEgo,
 				ImageUrl: superhero.Image.URL,
 			}
-			id, err := s.psql.Insert(new)
+			id, err := s.db.Insert(new)
 			if err != nil {
 				switch err {
 				case errors.SuperheroExists:
@@ -80,7 +80,7 @@ func (s *superheroService) AddSuperhero(ctx context.Context, sr *pb.SearchReques
 }
 
 func (s *superheroService) DeleteOneSuperhero(ctx context.Context, id *pb.SuperheroIdRequest) (*pb.Empty, error) {
-	err := s.psql.Delete(id.GetVal())
+	err := s.db.DeleteByID(id.GetVal())
 	if err != nil {
 		return nil, status.Error(codes.Internal, errors.InternalServerError.Error())
 	}

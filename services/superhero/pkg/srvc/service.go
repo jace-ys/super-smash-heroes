@@ -1,28 +1,15 @@
 package srvc
 
 import (
-	"fmt"
-
-	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 
-	"github.com/jace-ys/super-smash-heroes/libraries/go/config"
-	"github.com/jace-ys/super-smash-heroes/services/superhero/pkg/psql"
+	"github.com/jace-ys/super-smash-heroes/services/superhero/pkg/db"
 
 	pb "github.com/jace-ys/super-smash-heroes/api/proto/generated/go/superhero"
 )
 
-var (
-	host     = config.Get("db.superhero.host").String("localhost")
-	port     = config.Get("db.superhero.host").Int(5432)
-	user     = "postgres"
-	password = "mysecretpassword"
-	dbname   = "postgres"
-	table    = "superheroes"
-)
-
 type superheroService struct {
-	psql *psql.Client
+	db *db.Client
 	*grpc.Server
 }
 
@@ -34,16 +21,15 @@ func NewService() *superheroService {
 
 func (s *superheroService) Init() error {
 	pb.RegisterSuperheroServiceServer(s.Server, s)
-	psqlSourceInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable dbname=%s", host, port, user, password, dbname)
-	psqlClient, err := psql.Open(psqlSourceInfo)
+	dbClient, err := db.NewClient()
 	if err != nil {
 		return err
 	}
-	s.psql = psqlClient
+	s.db = dbClient
 	return nil
 }
 
 func (s *superheroService) Shutdown() {
-	s.psql.Close()
+	s.db.Teardown()
 	s.Server.Stop()
 }

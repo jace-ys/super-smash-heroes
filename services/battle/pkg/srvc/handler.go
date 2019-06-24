@@ -68,11 +68,11 @@ func getOneSuperhero(id int32) (*superheroPb.SuperheroResponse, error) {
 }
 
 func getPowerStats(fullName, alterEgo string) (*superhero.Powerstats, error) {
-	baseUri := superhero.GetBaseUri()
-	if baseUri == "" {
+	baseURI := superhero.GetBaseURI()
+	if baseURI == "" {
 		return nil, errors.MissingAccessToken
 	}
-	resp, err := http.Get(fmt.Sprintf("%s/search/%s", baseUri, alterEgo))
+	resp, err := http.Get(fmt.Sprintf("%s/search/%s", baseURI, alterEgo))
 	if err != nil {
 		return nil, errors.InternalServerError
 	}

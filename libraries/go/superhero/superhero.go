@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func GetBaseUri() string {
+func GetBaseURI() string {
 	accessToken, ok := os.LookupEnv("SUPERHERO_API_ACCESS_TOKEN")
 	if !ok {
 		return ""

@@ -15,6 +15,5 @@ db:
   superhero:
     host: localhost
     port: 5432
-    table: superheroes
     retry:
       interval: 3

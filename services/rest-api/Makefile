@@ -3,6 +3,7 @@ SOURCE = main.go
 DOCKER_BINARY = main_docker
 IMAGE = super-smash-heroes/service.rest-api
 VERSION = latest
+CONFIG_FILE = ../../config/config.dev.yaml
 
 .PHONY: all run build execute image test format update
 
@@ -18,7 +19,7 @@ build:
 
 execute:
 	@echo "==> Executing binary.."
-	@./${TARGET}
+	CONFIG_FILE=${CONFIG_FILE} ./${TARGET}
 
 image:
 	@echo "==> Building binary for Linux.."
