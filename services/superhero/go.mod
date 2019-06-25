@@ -10,7 +10,7 @@ replace (
 require (
 	github.com/jace-ys/super-smash-heroes/api/proto/generated/go v0.0.0
 	github.com/jace-ys/super-smash-heroes/libraries/go v0.0.0
-	github.com/jmoiron/sqlx v1.2.0 // indirect
+	github.com/jmoiron/sqlx v1.2.0
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/lib/pq v1.1.1
 	golang.org/x/net v0.0.0-20190619014844-b5b0513f8c1b // indirect

@@ -3,6 +3,8 @@ package db
 import (
 	"database/sql"
 
+	"github.com/jmoiron/sqlx"
+
 	"github.com/jace-ys/super-smash-heroes/libraries/go/config"
 	"github.com/jace-ys/super-smash-heroes/libraries/go/errors"
 	"github.com/jace-ys/super-smash-heroes/libraries/go/pg"
@@ -11,7 +13,7 @@ import (
 )
 
 type Client struct {
-	db *pg.Conn
+	*pg.Conn
 }
 
 func NewClient() (*Client, error) {
@@ -31,24 +33,26 @@ func NewClient() (*Client, error) {
 	return &Client{conn}, nil
 }
 
-func (c *Client) Teardown() {
-	c.db.Close()
-}
-
 func (c *Client) GetAll() ([]*pb.SuperheroResponse, error) {
-	rows, err := c.db.Query("SELECT * FROM superheroes")
-	if err != nil {
-		return nil, err
-	}
 	var data []*pb.SuperheroResponse
-	for rows.Next() {
-		var row pb.SuperheroResponse
-		if err = rows.Scan(&row.Id, &row.FullName, &row.AlterEgo, &row.ImageUrl); err != nil {
-			return nil, err
+	err := c.Transact(func(*sqlx.Tx) error {
+		rows, err := c.Queryx("SELECT * FROM superheroes")
+		if err != nil {
+			return err
 		}
-		data = append(data, &row)
-	}
-	if err := rows.Err(); err != nil {
+		for rows.Next() {
+			var row pb.SuperheroResponse
+			if err = rows.Scan(&row.Id, &row.FullName, &row.AlterEgo, &row.ImageUrl); err != nil {
+				return err
+			}
+			data = append(data, &row)
+		}
+		if err := rows.Err(); err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
 		return nil, err
 	}
 	return data, nil
@@ -56,12 +60,18 @@ func (c *Client) GetAll() ([]*pb.SuperheroResponse, error) {
 
 func (c *Client) FindByID(id int32) (*pb.SuperheroResponse, error) {
 	var row pb.SuperheroResponse
-	rows := c.db.QueryRow("SELECT * FROM superheroes WHERE id=$1", id)
-	err := rows.Scan(&row.Id, &row.FullName, &row.AlterEgo, &row.ImageUrl)
-	switch {
-	case err == sql.ErrNoRows:
-		return nil, errors.SuperheroNotFound
-	case err != nil:
+	err := c.Transact(func(*sqlx.Tx) error {
+		rows := c.QueryRowx("SELECT * FROM superheroes WHERE id=$1", id)
+		err := rows.Scan(&row.Id, &row.FullName, &row.AlterEgo, &row.ImageUrl)
+		switch {
+		case err == sql.ErrNoRows:
+			return errors.SuperheroNotFound
+		case err != nil:
+			return err
+		}
+		return nil
+	})
+	if err != nil {
 		return nil, err
 	}
 	return &row, nil
@@ -69,7 +79,14 @@ func (c *Client) FindByID(id int32) (*pb.SuperheroResponse, error) {
 
 func (c *Client) Insert(s *pb.SuperheroResponse) (int32, error) {
 	var id int32
-	err := c.db.QueryRow("INSERT INTO superheroes (full_name, alter_ego, image_url) VALUES ($1, $2, $3) RETURNING id", s.FullName, s.AlterEgo, s.ImageUrl).Scan(&id)
+	err := c.Transact(func(tx *sqlx.Tx) error {
+		var id int32
+		err := tx.QueryRowx("INSERT INTO superheroes (full_name, alter_ego, image_url) VALUES ($1, $2, $3) RETURNING id", s.FullName, s.AlterEgo, s.ImageUrl).Scan(&id)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 	if err != nil {
 		return -1, err
 	}
@@ -77,9 +94,15 @@ func (c *Client) Insert(s *pb.SuperheroResponse) (int32, error) {
 }
 
 func (c *Client) DeleteByID(id int32) error {
-	_, err := c.db.Exec("DELETE FROM superheroes WHERE id=$1", id)
-	if err != nil {
-		return err
-	}
-	return nil
+	return c.Transact(func(tx *sqlx.Tx) error {
+		res := tx.MustExec("DELETE FROM superheroes WHERE id=$1", id)
+		count, err := res.RowsAffected()
+		if err != nil {
+			return err
+		}
+		if count == 0 {
+			return errors.SuperheroNotFound
+		}
+		return nil
+	})
 }

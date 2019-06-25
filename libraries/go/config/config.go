@@ -10,11 +10,12 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+const defaultConfigFilepath = "config/config.yaml"
 var DefaultProvider Provider
 
 func init() {
-	file := os.Getenv("CONFIG_FILE")
-	c, err := LoadConfigFile(file)
+	file := getConfigFile()
+	c, err := LoadConfig(file)
 	if err != nil {
 		log.Println("Failed to load configuration file")
 	}
@@ -34,6 +35,14 @@ type Value struct {
 	raw interface{}
 }
 
+func getConfigFile() string {
+	file, ok := os.LookupEnv("CONFIG_FILE")
+	if !ok {
+		return defaultConfigFilepath
+	}
+	return file
+}
+
 func mustGetDefaultProvider() Provider {
 	if DefaultProvider == nil {
 		log.Println("Default provider not defined")
@@ -44,7 +53,7 @@ func mustGetDefaultProvider() Provider {
 func Has(path string) bool  { return mustGetDefaultProvider().Has(path) }
 func Get(path string) Value { return mustGetDefaultProvider().Get(path) }
 
-func LoadConfigFile(file string) (map[interface{}]interface{}, error) {
+func LoadConfig(file string) (map[interface{}]interface{}, error) {
 	var c map[interface{}]interface{}
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
@@ -68,14 +77,11 @@ func New(content map[interface{}]interface{}) Provider {
 
 func convertKeysToString(m map[interface{}]interface{}) (map[string]interface{}, error) {
 	n := make(map[string]interface{})
-
 	for k, v := range m {
-		// Assert that the key is a string
 		str, ok := k.(string)
 		if !ok {
-			return nil, fmt.Errorf("config key is not a string")
+			return nil, fmt.Errorf("Configuration key is not a string")
 		}
-
 		if vMap, ok := v.(map[interface{}]interface{}); ok {
 			var err error
 			v, err = convertKeysToString(vMap)
@@ -83,10 +89,8 @@ func convertKeysToString(m map[interface{}]interface{}) (map[string]interface{},
 				return nil, err
 			}
 		}
-
 		n[str] = v
 	}
-
 	return n, nil
 }
 

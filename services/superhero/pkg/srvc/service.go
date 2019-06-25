@@ -30,6 +30,6 @@ func (s *superheroService) Init() error {
 }
 
 func (s *superheroService) Shutdown() {
-	s.db.Teardown()
+	s.db.Close()
 	s.Server.Stop()
 }

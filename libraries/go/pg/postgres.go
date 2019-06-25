@@ -43,7 +43,9 @@ func DefaultConfig() *Config {
 }
 
 func Connect(cfg ...*Config) (*Conn, error) {
-	cfg = append(cfg, DefaultConfig())
+	if len(cfg) == 0 {
+		cfg = append(cfg, DefaultConfig())
+	}
 	c := cfg[0]
 	var sslmode string
 	switch c.DisableSSL {
