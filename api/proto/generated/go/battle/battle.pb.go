@@ -8,6 +8,8 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -164,6 +166,14 @@ func (c *battleServiceClient) GetBattleResult(ctx context.Context, in *BattleReq
 // BattleServiceServer is the server API for BattleService service.
 type BattleServiceServer interface {
 	GetBattleResult(context.Context, *BattleRequest) (*BattleResponse, error)
+}
+
+// UnimplementedBattleServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedBattleServiceServer struct {
+}
+
+func (*UnimplementedBattleServiceServer) GetBattleResult(ctx context.Context, req *BattleRequest) (*BattleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBattleResult not implemented")
 }
 
 func RegisterBattleServiceServer(s *grpc.Server, srv BattleServiceServer) {

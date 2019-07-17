@@ -8,6 +8,8 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -411,6 +413,23 @@ type SuperheroServiceServer interface {
 	GetOneSuperhero(context.Context, *SuperheroIdRequest) (*SuperheroResponse, error)
 	AddSuperhero(context.Context, *SearchRequest) (*SuperheroResponse, error)
 	DeleteOneSuperhero(context.Context, *SuperheroIdRequest) (*Empty, error)
+}
+
+// UnimplementedSuperheroServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedSuperheroServiceServer struct {
+}
+
+func (*UnimplementedSuperheroServiceServer) GetAllSuperheroes(req *Empty, srv SuperheroService_GetAllSuperheroesServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetAllSuperheroes not implemented")
+}
+func (*UnimplementedSuperheroServiceServer) GetOneSuperhero(ctx context.Context, req *SuperheroIdRequest) (*SuperheroResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOneSuperhero not implemented")
+}
+func (*UnimplementedSuperheroServiceServer) AddSuperhero(ctx context.Context, req *SearchRequest) (*SuperheroResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddSuperhero not implemented")
+}
+func (*UnimplementedSuperheroServiceServer) DeleteOneSuperhero(ctx context.Context, req *SuperheroIdRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOneSuperhero not implemented")
 }
 
 func RegisterSuperheroServiceServer(s *grpc.Server, srv SuperheroServiceServer) {
