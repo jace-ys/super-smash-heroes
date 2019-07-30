@@ -3,7 +3,7 @@ SOURCE = main.go
 DOCKER_BINARY = main_docker
 IMAGE = super-smash-heroes/service.superhero
 VERSION = latest
-CONFIG_FILE = ../../config/config.dev.yaml
+CONFIG_FILE = ../../config/service-config.dev.yaml
 
 .PHONY: all run build execute image test format update
 

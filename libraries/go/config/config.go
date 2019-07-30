@@ -11,6 +11,7 @@ import (
 )
 
 const defaultConfigFilepath = "config/config.yaml"
+
 var DefaultProvider Provider
 
 func init() {
