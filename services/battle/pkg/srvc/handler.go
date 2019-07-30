@@ -54,6 +54,9 @@ func (s *battleService) GetBattleResult(ctx context.Context, br *pb.BattleReques
 
 func getOneSuperhero(id int32) (*superheroPb.SuperheroResponse, error) {
 	conn, err := service.CreateClientConn(service.SuperheroServerAddress)
+	if err != nil {
+		return nil, err
+	}
 	client := superheroPb.NewSuperheroServiceClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
