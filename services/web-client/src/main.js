@@ -1,8 +1,6 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import axios from 'axios';
 
 Vue.config.productionTip = false
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+axios.get("/api/superheroes/1").then(response => console.log(response.data));
