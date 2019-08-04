@@ -9,10 +9,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.backend=service.web-client"
-      - "traefik.frontend.rule=Host:web.docker.localhost"
+      - "traefik.frontend.rule=Host:supersmashheroes.localhost"
 
   service.api-gateway:
-    image: traefik:1.7.12-alpine
+    image: traefik:1.7.14-alpine
     restart: always
     container_name: service.api-gateway
     volumes:

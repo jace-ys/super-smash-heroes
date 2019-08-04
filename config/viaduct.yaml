@@ -1,5 +1,0 @@
-apis:
-  rest-api:
-    name: REST API
-    prefix: api
-    upstream_url: http://service.rest-api

@@ -1,3 +1,6 @@
+debug = false
+
+logLevel = "INFO"
 defaultEntryPoints = ["http"]
 
 [entryPoints]
@@ -11,5 +14,5 @@ entryPoint = "api"
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "docker.localhost"
+domain = "supersmashheroes.localhost"
 exposedByDefault = false
