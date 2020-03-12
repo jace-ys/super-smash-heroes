@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+PROTOPATH=
+TARGETS=
+
+while getopts "p:t:" OPT; do
+  case "$OPT" in
+    p )
+      PROTOPATH="$OPTARG"
+      ;;
+    t )
+      TARGETS="$OPTARG"
+      ;;
+  esac
+done
+
+if [ -z "$PROTOPATH" ] || [ -z "$TARGETS" ]; then
+  echo "Usage: protogen [-p] [path to proto folder] [-t] [space-separated targets]"
+  exit 1
+fi
+
+for TARGET in $TARGETS; do
+  VERSION="${TARGET%%/*}"
+  OUTDIR="api/${TARGET#*/}"
+
+  mkdir -p "$OUTDIR"
+  protoc \
+    -I"$PROTOPATH/$VERSION" \
+    --go_out="plugins=grpc:$OUTDIR" \
+    "$PROTOPATH/$TARGET.proto"
+  echo "==> Generated gRPC interfaces from $TARGET.proto"
+done
