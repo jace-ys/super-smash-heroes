@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  db.postgres:
+    image: postgres:12.2-alpine
+    environment:
+      POSTGRES_DB: nintendo
+      POSTGRES_PASSWORD: nintendo
+      POSTGRES_USER: nintendo
+    ports:
+      - 5432:5432
