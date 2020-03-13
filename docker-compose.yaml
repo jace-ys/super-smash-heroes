@@ -1,6 +1,14 @@
 version: "3.7"
 
 services:
+  service.superhero:
+    build: ./services/superhero
+    image: super-smash-heroes/service.superhero:latest
+
+  service.battle:
+    build: ./services/battle
+    image: super-smash-heroes/service.battle:latest
+
   db.postgres:
     image: postgres:12.2-alpine
     environment:
