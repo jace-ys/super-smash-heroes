@@ -2,17 +2,22 @@
 
 SOURCE = cmd/service/main.go
 PROTO = v1/superhero
-DEPENDENCIES = db.postgres
+DEPENDENCIES = db.postgres db.postgres.init
 
 all: format run
 
 build:
 	@echo "==> Compiling code.."
-	go build ${SOURCE}
+	go build -o service ${SOURCE}
 
 run:
 	@echo "==> Executing code.."
-	go run ${SOURCE}
+	go run ${SOURCE} \
+	--port 8080 \
+	--postgres-host 127.0.0.1:5432 \
+	--postgres-user nintendo \
+	--postgres-password nintendo \
+	--postgres-db nintendo
 
 proto:
 	@echo "==> Generating proto.."

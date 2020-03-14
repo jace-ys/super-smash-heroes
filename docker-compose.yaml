@@ -4,10 +4,22 @@ services:
   service.superhero:
     build: ./services/superhero
     image: super-smash-heroes/service.superhero:latest
+    environment:
+      PORT: 8080
+      POSTGRES_DB: nintendo
+      POSTGRES_HOST: db.postgres:5432
+      POSTGRES_PASSWORD: nintendo
+      POSTGRES_USER: nintendo
 
   service.battle:
     build: ./services/battle
     image: super-smash-heroes/service.battle:latest
+    environment:
+      PORT: 8080
+      POSTGRES_DB: nintendo
+      POSTGRES_HOST: db.postgres:5432
+      POSTGRES_PASSWORD: nintendo
+      POSTGRES_USER: nintendo
 
   db.postgres:
     image: postgres:12.2-alpine
