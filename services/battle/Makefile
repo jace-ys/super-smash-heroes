@@ -1,8 +1,8 @@
+.PHONY: all build run proto dependencies test format
+
 SOURCE = cmd/service/main.go
 PROTO = v1/battle
 DEPENDENCIES = db.postgres
-
-.PHONY: all build run proto dependencies test format
 
 all: format run
 
@@ -12,7 +12,7 @@ build:
 
 run:
 	@echo "==> Executing code.."
-	@go run ${SOURCE}
+	go run ${SOURCE}
 
 proto:
 	@echo "==> Generating proto.."
