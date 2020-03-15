@@ -30,7 +30,9 @@ func main() {
 		exit(err)
 	}
 
-	superheroService, err := superhero.NewService(logger, postgresClient)
+	superheroRegistry := superhero.NewSuperheroAPIClient(c.superhero.Token)
+
+	superheroService, err := superhero.NewService(logger, postgresClient, superheroRegistry)
 	if err != nil {
 		exit(err)
 	}
@@ -58,8 +60,9 @@ func main() {
 }
 
 type config struct {
-	server   server.GRPCServerConfig
-	database postgres.Config
+	server    server.GRPCServerConfig
+	database  postgres.PostgresClientConfig
+	superhero superhero.SuperheroAPIClientConfig
 }
 
 func parseCommand() *config {
@@ -70,6 +73,7 @@ func parseCommand() *config {
 	kingpin.Flag("postgres-user", "user for connecting to Postgres").Default("postgres").StringVar(&c.database.User)
 	kingpin.Flag("postgres-password", "password for connecting to Postgres").Required().StringVar(&c.database.Password)
 	kingpin.Flag("postgres-db", "database for connecting to Postgres").Default("postgres").StringVar(&c.database.Database)
+	kingpin.Flag("superhero-api-token", "token for authenticating with the Superhero API").Required().StringVar(&c.superhero.Token)
 	kingpin.Parse()
 
 	return &c

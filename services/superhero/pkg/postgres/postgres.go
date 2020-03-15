@@ -16,21 +16,21 @@ type Client interface {
 	Close() error
 }
 
-type Config struct {
+type PostgresClientConfig struct {
 	Host     string
 	User     string
 	Password string
 	Database string
 }
 
-type postgresClient struct {
-	config *Config
+type PostgresClient struct {
+	config *PostgresClientConfig
 	*sqlx.DB
 }
 
-func NewPostgresClient(host, user, password, database string) (*postgresClient, error) {
-	client := postgresClient{
-		config: &Config{
+func NewPostgresClient(host, user, password, database string) (*PostgresClient, error) {
+	client := PostgresClient{
+		config: &PostgresClientConfig{
 			Host:     host,
 			User:     user,
 			Password: password,
@@ -45,7 +45,7 @@ func NewPostgresClient(host, user, password, database string) (*postgresClient, 
 	return &client, nil
 }
 
-func (c *postgresClient) init() error {
+func (c *PostgresClient) init() error {
 	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
 		c.config.User,
 		c.config.Password,
@@ -71,7 +71,7 @@ func toLowerSnakeCase(str string) string {
 	return strings.ToLower(snake)
 }
 
-func (c *postgresClient) Transact(ctx context.Context, fn func(*sqlx.Tx) error) error {
+func (c *PostgresClient) Transact(ctx context.Context, fn func(*sqlx.Tx) error) error {
 	tx, err := c.BeginTxx(ctx, nil)
 	if err != nil {
 		return fmt.Errorf("postgres transaction failed: %w", err)

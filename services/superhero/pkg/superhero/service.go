@@ -17,14 +17,16 @@ type Server interface {
 }
 
 type SuperheroService struct {
-	logger log.Logger
-	db     postgres.Client
+	logger   log.Logger
+	db       postgres.Client
+	registry SuperheroRegistry
 }
 
-func NewService(logger log.Logger, dbClient postgres.Client) (*SuperheroService, error) {
+func NewService(logger log.Logger, dbClient postgres.Client, registry SuperheroRegistry) (*SuperheroService, error) {
 	return &SuperheroService{
-		logger: logger,
-		db:     dbClient,
+		logger:   logger,
+		db:       dbClient,
+		registry: registry,
 	}, nil
 }
 

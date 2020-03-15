@@ -4,6 +4,7 @@ services:
   service.superhero:
     build: ./services/superhero
     image: super-smash-heroes/service.superhero:latest
+    env_file: ./.env
     environment:
       PORT: 8080
       POSTGRES_DB: nintendo

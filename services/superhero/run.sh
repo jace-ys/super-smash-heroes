@@ -6,4 +6,5 @@ exec service \
   --postgres-host "$POSTGRES_HOST" \
   --postgres-user "$POSTGRES_USER" \
   --postgres-password "$POSTGRES_PASSWORD" \
-  --postgres-db "$POSTGRES_DB"
+  --postgres-db "$POSTGRES_DB" \
+  --superhero-api-token "$SUPERHERO_API_TOKEN"

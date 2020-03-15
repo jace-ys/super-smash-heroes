@@ -17,7 +17,8 @@ run:
 	--postgres-host 127.0.0.1:5432 \
 	--postgres-user nintendo \
 	--postgres-password nintendo \
-	--postgres-db nintendo
+	--postgres-db nintendo \
+	--superhero-api-token ${SUPERHERO_API_TOKEN}
 
 proto:
 	@echo "==> Generating proto.."

@@ -59,7 +59,7 @@ func main() {
 
 type config struct {
 	server   server.GRPCServerConfig
-	database postgres.Config
+	database postgres.PostgresClientConfig
 }
 
 func parseCommand() *config {
