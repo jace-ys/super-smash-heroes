@@ -1,4 +1,4 @@
-name: service.superhero
+name: test.integration
 
 on: push
 
@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      WORKDIR: ./services/superhero
+      WORKDIR: ./test
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v1
@@ -15,9 +15,9 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/go/pkg/mod
-          key: ${{ runner.os }}-service.superhero-${{ hashFiles('services/superhero/go.sum') }}
+          key: ${{ runner.os }}-test.integration-${{ hashFiles('test/go.sum') }}
           restore-keys: |
-            ${{ runner.os }}-service.superhero-
+            ${{ runner.os }}-test.integration-
       - name: Setup environment
         run: |
           echo "SUPERHERO_API_TOKEN=${{ secrets.SUPERHERO_API_TOKEN }}" >> .env
@@ -38,9 +38,12 @@ jobs:
           if [ -n "$(gofmt -l .)" ]; then
             exit 1
           fi
-      - name: Run tests
+      - name: Build images
         working-directory: ${{env.WORKDIR}}
-        run: make test
-      - name: Build
+        run: make images
+      - name: Run service.battle test suite
         working-directory: ${{env.WORKDIR}}
-        run: make build
+        run: make integration
+      - name: Run service.superhero test suite
+        working-directory: ${{env.WORKDIR}}
+        run: make integration

@@ -5,15 +5,15 @@ INSERT INTO superheroes (full_name, alter_ego, image_url, intelligence, strength
 );
 
 INSERT INTO superheroes (full_name, alter_ego, image_url, intelligence, strength, speed, durability, power, combat) VALUES (
-  'Kara Zor-El', 'Supergirl',
-  'https://www.superherodb.com/pictures2/portraits/10/100/790.jpg',
-  94, 100, 100, 100, 100, 75
-);
-
-INSERT INTO superheroes (full_name, alter_ego, image_url, intelligence, strength, speed, durability, power, combat) VALUES (
   'Barry Allen', 'Flash II',
   'https://www.superherodb.com/pictures2/portraits/10/100/892.jpg',
   88, 48, 100, 60, 100, 60
+);
+
+INSERT INTO superheroes (full_name, alter_ego, image_url, intelligence, strength, speed, durability, power, combat) VALUES (
+  'Kara Zor-El', 'Supergirl',
+  'https://www.superherodb.com/pictures2/portraits/10/100/790.jpg',
+  94, 100, 100, 100, 100, 75
 );
 
 INSERT INTO superheroes (full_name, alter_ego, image_url, intelligence, strength, speed, durability, power, combat) VALUES (

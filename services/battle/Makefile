@@ -13,7 +13,7 @@ build:
 run:
 	@echo "==> Executing code.."
 	go run ${SOURCE} \
-	--port 8080 \
+	--port 8081 \
 	--postgres-host 127.0.0.1:5432 \
 	--postgres-user nintendo \
 	--postgres-password nintendo \
