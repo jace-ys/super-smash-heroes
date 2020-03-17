@@ -41,9 +41,6 @@ jobs:
       - name: Build images
         working-directory: ${{env.WORKDIR}}
         run: make images
-      - name: Run service.battle test suite
-        working-directory: ${{env.WORKDIR}}
-        run: make integration
-      - name: Run service.superhero test suite
+      - name: Run integration test suite
         working-directory: ${{env.WORKDIR}}
         run: make integration

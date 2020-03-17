@@ -5,17 +5,39 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/go-kit/kit/log/level"
+	"google.golang.org/grpc/codes"
+
 	pb "github.com/jace-ys/super-smash-heroes/services/battle/api/battle"
 )
 
 func (s *BattleService) GetResult(ctx context.Context, req *pb.GetResultRequest) (*pb.GetResultResponse, error) {
-	winner := determineWinner(req.PlayerOne, req.PlayerTwo)
+	level.Info(s.logger).Log("event", "battle.get_result.started")
+	defer level.Info(s.logger).Log("event", "battle.get_result.finished")
+
+	err := s.validateGetResultRequest(req)
+	if err != nil {
+		level.Error(s.logger).Log("event", "battle.get_result.failure", "msg", err)
+		return nil, s.Error(codes.InvalidArgument, err)
+	}
+
+	winner := s.determineWinner(req.PlayerOne, req.PlayerTwo)
 	return &pb.GetResultResponse{
 		Winner: winner,
 	}, nil
 }
 
-func determineWinner(players ...*pb.Player) int32 {
+func (s *BattleService) validateGetResultRequest(req *pb.GetResultRequest) error {
+	switch {
+	case req.PlayerOne == nil:
+		return ErrRequestInvalid
+	case req.PlayerTwo == nil:
+		return ErrRequestInvalid
+	}
+	return nil
+}
+
+func (s *BattleService) determineWinner(players ...*pb.Player) int32 {
 	scores := make([]float32, len(players))
 	for i, player := range players {
 		scores[i] = computeScore([]int32{

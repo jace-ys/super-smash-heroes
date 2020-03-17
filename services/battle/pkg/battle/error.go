@@ -1,8 +1,14 @@
 package battle
 
 import (
+	"errors"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+)
+
+var (
+	ErrRequestInvalid = errors.New("invalid request payload")
 )
 
 func (s *BattleService) Error(code codes.Code, err error) error {
