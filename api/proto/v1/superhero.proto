@@ -2,11 +2,33 @@ syntax = "proto3";
 
 package superhero;
 
+import "google/api/annotations.proto";
+
 service SuperheroService {
-  rpc List(ListRequest) returns (ListResponse) {}
-  rpc Get(GetRequest) returns (GetResponse) {}
-  rpc Create(CreateRequest) returns (CreateResponse) {}
-  rpc Delete(DeleteRequest) returns (DeleteResponse) {}
+  rpc List(ListRequest) returns (ListResponse) {
+    option (google.api.http) = {
+      get: "/v1/superheroes"
+    };
+  }
+
+  rpc Get(GetRequest) returns (GetResponse) {
+    option (google.api.http) = {
+      get: "/v1/superheroes/{id}"
+    };
+  }
+
+  rpc Create(CreateRequest) returns (CreateResponse) {
+    option (google.api.http) = {
+      post: "/v1/superheroes"
+      body: "*"
+    };
+  }
+
+  rpc Delete(DeleteRequest) returns (DeleteResponse) {
+    option (google.api.http) = {
+      delete: "/v1/superheroes/{id}"
+    };
+  }
 }
 
 message Superhero {

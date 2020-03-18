@@ -21,7 +21,9 @@ jobs:
       - name: Setup environment
         run: |
           echo "SUPERHERO_API_TOKEN=${{ secrets.SUPERHERO_API_TOKEN }}" >> .env
-      - name: Verify proto
+      - name: Install protobuf
+        run: ./bin/protoinstall protoc go
+      - name: Verify protobuf
         working-directory: ${{env.WORKDIR}}
         run: |
           make proto

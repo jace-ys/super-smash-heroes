@@ -2,8 +2,15 @@ syntax = "proto3";
 
 package battle;
 
+import "google/api/annotations.proto";
+
 service BattleService {
-  rpc GetResult(GetResultRequest) returns (GetResultResponse) {}
+  rpc GetResult(GetResultRequest) returns (GetResultResponse) {
+    option (google.api.http) = {
+      post: "/v1/battle"
+      body: "*"
+    };
+  }
 }
 
 message Player {

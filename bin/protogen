@@ -2,8 +2,10 @@
 
 PROTOPATH=
 TARGETS=
+GATEWAY=false
+GOPATH=$(go env GOPATH)
 
-while getopts "p:t:" OPT; do
+while getopts "p:t:g" OPT; do
   case "$OPT" in
     p )
       PROTOPATH="$OPTARG"
@@ -11,11 +13,14 @@ while getopts "p:t:" OPT; do
     t )
       TARGETS="$OPTARG"
       ;;
+    g )
+      GATEWAY=true
+      ;;
   esac
 done
 
 if [ -z "$PROTOPATH" ] || [ -z "$TARGETS" ]; then
-  echo "Usage: protogen [-p] [path to proto folder] [-t] [space-separated targets]"
+  echo "Usage: protogen [-p] [path to proto folder] [-t] [space-separated targets] [-g]"
   exit 1
 fi
 
@@ -25,8 +30,20 @@ for TARGET in $TARGETS; do
 
   mkdir -p "$OUTDIR"
   protoc \
+    -I/usr/local/include \
     -I"$PROTOPATH/$VERSION" \
+    -I"$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis" \
     --go_out="plugins=grpc:$OUTDIR" \
     "$PROTOPATH/$TARGET.proto"
   echo "==> Generated gRPC interfaces from $TARGET.proto"
+
+  if [ "$GATEWAY" = true ]; then
+    protoc \
+      -I/usr/local/include \
+      -I"$PROTOPATH/$VERSION" \
+      -I"$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis" \
+      --grpc-gateway_out="logtostderr=true:$OUTDIR" \
+      "$PROTOPATH/$TARGET.proto"
+    echo "==> Generated gRPC gateway interfaces from $TARGET.proto"
+  fi
 done

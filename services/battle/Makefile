@@ -13,7 +13,8 @@ build:
 run:
 	@echo "==> Executing code.."
 	go run ${SOURCE} \
-	--port 8081 \
+	--port 8080 \
+	--gateway-port 8081 \
 	--postgres-host 127.0.0.1:5432 \
 	--postgres-user nintendo \
 	--postgres-password nintendo \
@@ -21,7 +22,7 @@ run:
 
 proto:
 	@echo "==> Generating proto.."
-	../../bin/protogen -p ../../api/proto -t "${PROTO}"
+	../../bin/protogen -p ../../api/proto -t "${PROTO}" -g
 
 dependencies:
 	@echo "==> Starting auxiliary containers.."

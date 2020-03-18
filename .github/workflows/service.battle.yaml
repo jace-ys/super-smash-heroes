@@ -18,7 +18,9 @@ jobs:
           key: ${{ runner.os }}-service.battle-${{ hashFiles('services/battle/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-service.battle-
-      - name: Verify proto
+      - name: Install protobuf
+        run: ./bin/protoinstall protoc go
+      - name: Verify protobuf
         working-directory: ${{env.WORKDIR}}
         run: |
           make proto

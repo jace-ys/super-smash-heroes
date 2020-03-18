@@ -6,7 +6,8 @@ services:
     image: super-smash-heroes/service.superhero:latest
     env_file: ./.env
     environment:
-      PORT: 8081
+      PORT: 8080
+      GATEWAY_PORT: 8081
       POSTGRES_DB: nintendo
       POSTGRES_HOST: db.postgres:5432
       POSTGRES_PASSWORD: nintendo
@@ -16,7 +17,8 @@ services:
     build: ./services/battle
     image: super-smash-heroes/service.battle:latest
     environment:
-      PORT: 8081
+      PORT: 8080
+      GATEWAY_PORT: 8081
       POSTGRES_DB: nintendo
       POSTGRES_HOST: db.postgres:5432
       POSTGRES_PASSWORD: nintendo
