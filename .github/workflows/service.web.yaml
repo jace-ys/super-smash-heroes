@@ -1,0 +1,32 @@
+name: service.web
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      WORKDIR: ./services/web
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.16"
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-service.web-${{ hashFiles('services/web/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-service.web-
+      - name: Install dependencies
+        working-directory: ${{env.WORKDIR}}
+        run: npm install
+      - name: Lint
+        working-directory: ${{env.WORKDIR}}
+        run: npm run lint
+      - name: Run tests
+        working-directory: ${{env.WORKDIR}}
+        run: npm test
+      - name: Build
+        working-directory: ${{env.WORKDIR}}
+        run: npm run build

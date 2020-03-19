@@ -77,8 +77,8 @@ type config struct {
 func parseCommand() *config {
 	var c config
 
-	kingpin.Flag("port", "port for the gRPC server").Default("8080").IntVar(&c.server.Port)
-	kingpin.Flag("gateway-port", "port for the REST gateway proxy").Default("8081").IntVar(&c.proxy.Port)
+	kingpin.Flag("port", "port for the gRPC server").Default("8081").IntVar(&c.server.Port)
+	kingpin.Flag("gateway-port", "port for the REST gateway proxy").Default("8080").IntVar(&c.proxy.Port)
 	kingpin.Flag("postgres-host", "host for connecting to Postgres").Default("127.0.0.1:5432").StringVar(&c.database.Host)
 	kingpin.Flag("postgres-user", "user for connecting to Postgres").Default("postgres").StringVar(&c.database.User)
 	kingpin.Flag("postgres-password", "password for connecting to Postgres").Required().StringVar(&c.database.Password)

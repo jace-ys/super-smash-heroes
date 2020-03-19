@@ -53,7 +53,7 @@ message GetRequest {
   int32 id = 1;
 }
 message GetResponse {
-  Superhero superhero = 1;
+  Superhero superheroes = 1;
 }
 
 message CreateRequest {

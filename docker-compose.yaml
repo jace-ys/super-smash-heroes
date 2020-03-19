@@ -1,32 +1,37 @@
 version: "3.7"
 
 services:
+  service.web:
+    build: ./services/web
+    image: super-smash-heroes/service.web:latest
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.service-web.rule=Host(`smash.localhost`)
+      - traefik.http.services.service-web.loadbalancer.server.port=8080
+
   service.api-gateway:
     image: traefik:2.1
     ports:
       - 80:80
+      - 8000:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./services/api-gateway/traefik.yaml:/etc/traefik/traefik.yaml
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.smash.localhost`)
-      - traefik.http.routers.traefik.service=api@internal
 
   service.superhero:
     build: ./services/superhero
     image: super-smash-heroes/service.superhero:latest
     labels:
       - traefik.enable=true
-      - traefik.http.routers.service-superhero.rule=Host(`api.smash.localhost`) && PathPrefix(`/superheroes`)
+      - traefik.http.routers.service-superhero.rule=PathPrefix(`/api/superheroes`)
       - traefik.http.routers.service-superhero.middlewares=service-superhero
-      - traefik.http.middlewares.service-superhero.replacepathregex.regex=^/superheroes(.*)
+      - traefik.http.middlewares.service-superhero.replacepathregex.regex=^/api/superheroes(.*)
       - traefik.http.middlewares.service-superhero.replacepathregex.replacement=/v1/superheroes$$1
-      - traefik.http.services.service-superhero.loadbalancer.server.port=8081
+      - traefik.http.services.service-superhero.loadbalancer.server.port=8080
     env_file: ./.env
     environment:
-      PORT: 8080
-      GATEWAY_PORT: 8081
+      PORT: 8081
+      GATEWAY_PORT: 8080
       POSTGRES_DB: nintendo
       POSTGRES_HOST: db.postgres:5432
       POSTGRES_PASSWORD: nintendo
@@ -37,14 +42,14 @@ services:
     image: super-smash-heroes/service.battle:latest
     labels:
       - traefik.enable=true
-      - traefik.http.routers.service-battle.rule=Host(`api.smash.localhost`) && PathPrefix(`/battle`)
+      - traefik.http.routers.service-battle.rule=PathPrefix(`/api/battle`)
       - traefik.http.routers.service-battle.middlewares=service-battle
-      - traefik.http.middlewares.service-battle.replacepathregex.regex=^/battle(.*)
+      - traefik.http.middlewares.service-battle.replacepathregex.regex=^/api/battle(.*)
       - traefik.http.middlewares.service-battle.replacepathregex.replacement=/v1/battle$$1
-      - traefik.http.services.service-battle.loadbalancer.server.port=8081
+      - traefik.http.services.service-battle.loadbalancer.server.port=8080
     environment:
-      PORT: 8080
-      GATEWAY_PORT: 8081
+      PORT: 8081
+      GATEWAY_PORT: 8080
       POSTGRES_DB: nintendo
       POSTGRES_HOST: db.postgres:5432
       POSTGRES_PASSWORD: nintendo

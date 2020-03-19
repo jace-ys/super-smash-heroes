@@ -3,11 +3,11 @@ version: "3.7"
 services:
   service.superhero:
     ports:
-      - "5001:8080"
+      - "5001:8081"
 
   service.battle:
     ports:
-      - "5002:8080"
+      - "5002:8081"
 
   db.postgres.init:
     volumes:

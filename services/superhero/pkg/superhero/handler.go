@@ -73,7 +73,7 @@ func (s *SuperheroService) Get(ctx context.Context, req *pb.GetRequest) (*pb.Get
 
 	level.Info(s.logger).Log("event", "superhero.get.success")
 	return &pb.GetResponse{
-		Superhero: superhero,
+		Superheroes: superhero,
 	}, nil
 }
 

@@ -40,8 +40,8 @@ var _ = Describe("SuperheroService", func() {
 
 			Expect(status.Code(err).String()).To(Equal(codes.OK.String()))
 			Expect(resp).NotTo(BeNil())
-			Expect(resp.Superhero.FullName).To(Equal("Oliver Queen"))
-			Expect(resp.Superhero.AlterEgo).To(Equal("Green Arrow"))
+			Expect(resp.Superheroes.FullName).To(Equal("Oliver Queen"))
+			Expect(resp.Superheroes.AlterEgo).To(Equal("Green Arrow"))
 		})
 
 		Context("Non-existent superhero", func() {
