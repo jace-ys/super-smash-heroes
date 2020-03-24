@@ -10,3 +10,14 @@ export interface Superhero {
   power: number;
   combat: number;
 }
+
+export enum PlayerTurn {
+  PlayerOne = 0,
+  PlayerTwo
+}
+
+export enum Winner {
+  None = 0,
+  PlayerOne,
+  PlayerTwo
+}

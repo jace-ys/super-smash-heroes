@@ -7,22 +7,10 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
 
-import { Superhero } from "./types";
-
 @Component
-export default class App extends Vue {
-  superheroes: Superhero[] = [];
-
-  mounted() {
-    axios.get("/api/superheroes").then(response => {
-      console.log(response.data);
-      this.superheroes = response.data.superheroes as Superhero[];
-    });
-  }
-}
+export default class App extends Vue {}
 </script>
 
 <style>
