@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 for ARG in "$@"; do
   case $ARG in
     protoc )

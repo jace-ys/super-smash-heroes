@@ -5,7 +5,7 @@ PROTO = v1/battle v1/superhero
 integration:
 	@make teardown
 	@make setup
-	@echo "==> Initializing.." && sleep 3
+	@echo "==> Initializing.." && ../bin/wait-for localhost:5432
 	@echo "==> Running integration tests.."
 	go test -v ./integration
 

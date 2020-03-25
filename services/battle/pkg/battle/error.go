@@ -24,5 +24,4 @@ func (s *BattleService) Error(code codes.Code, err error) error {
 		}
 		return status.Errorf(code, s.Message())
 	}
-
 }
