@@ -1,25 +1,15 @@
 <template>
   <v-container fluid class="container">
     <v-row>
-      <v-col
-        v-for="(player, index) in players"
-        :key="player.alter_ego"
-        class="pa-0"
-      >
-        <h1 :class="`p${index + 1}-header`">
-          P{{ index + 1 }} - {{ player.alter_ego }}
-        </h1>
-        <v-img
-          :src="player.image_url"
-          :alt="player.alter_ego"
-          height="700"
-        ></v-img>
+      <v-col v-for="(player, index) in players" :key="player.alterEgo" class="pa-0">
+        <h1 :class="`p${index + 1}-header`">P{{ index + 1 }} - {{ player.alterEgo }}</h1>
+        <v-img :src="player.imageUrl" :alt="player.alterEgo" height="700"></v-img>
       </v-col>
     </v-row>
     <v-row>
       <v-col
         v-for="superhero in superheroes"
-        :key="superhero.alter_ego"
+        :key="superhero.alterEgo"
         :class="playerSelectedClass(superhero)"
         class="pa-0"
         cols="1"
@@ -27,8 +17,8 @@
         <a>
           <v-img
             v-on:click="playerSelect(superhero)"
-            :src="superhero.image_url"
-            :alt="superhero.alter_ego"
+            :src="superhero.imageUrl"
+            :alt="superhero.alterEgo"
             aspect-ratio="1"
           />
         </a>
@@ -36,20 +26,10 @@
     </v-row>
     <v-row>
       <v-col class="pa-0">
-        <v-btn
-          v-on:click="battle"
-          :loading="loading"
-          color="primary"
-          x-large
-          tile
-          block
-          >Battle!</v-btn
-        >
+        <v-btn v-on:click="battle" :loading="loading" color="primary" x-large tile block>Battle!</v-btn>
       </v-col>
       <v-col class="pa-0">
-        <v-btn color="secondary" x-large tile block
-          >Winner: {{ getWinner() }}</v-btn
-        >
+        <v-btn color="secondary" x-large tile block>Winner: {{ getWinner() }}</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -130,7 +110,7 @@ export default class Battle extends Vue {
 
   getWinner() {
     if (this.winner) {
-      return `P${this.winner} - ${this.players[this.winner - 1].alter_ego}`;
+      return `P${this.winner} - ${this.players[this.winner - 1].alterEgo}`;
     }
   }
 }

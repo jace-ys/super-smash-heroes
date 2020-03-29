@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
@@ -30,14 +31,17 @@ func NewGatewayProxy(port int, endpoint string) *GatewayProxy {
 			Endpoint: endpoint,
 		},
 		server: &http.Server{
-			Handler: runtime.NewServeMux(),
-			Addr:    fmt.Sprintf(":%d", port),
+			Handler: runtime.NewServeMux(
+				runtime.WithProtoErrorHandler(HTTPError),
+				runtime.WithOutgoingHeaderMatcher(OutgoingHeaderMatcher),
+				runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{OrigName: false}),
+			),
+			Addr: fmt.Sprintf(":%d", port),
 		},
 	}
 }
 
 func (g *GatewayProxy) Init(ctx context.Context, s gw.BattleServiceServer) error {
-	runtime.HTTPError = HTTPError
 	err := gw.RegisterBattleServiceHandlerFromEndpoint(
 		ctx,
 		g.server.Handler.(*runtime.ServeMux),
@@ -89,4 +93,13 @@ func convertGRPCError(err error) *httpError {
 	httpErr.Error.Code = runtime.HTTPStatusFromCode(s.Code())
 
 	return &httpErr
+}
+
+func OutgoingHeaderMatcher(key string) (string, bool) {
+	switch {
+	case strings.HasPrefix(key, runtime.MetadataHeaderPrefix):
+		return "", false
+	default:
+		return key, true
+	}
 }
