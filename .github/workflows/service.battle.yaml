@@ -24,8 +24,8 @@ jobs:
         working-directory: ${{env.WORKDIR}}
         run: |
           make proto
-          if [ $(git diff | wc -l) -gt 0 ]; then
-            echo "Generated code not up to date with proto schema"
+          if ! git diff --exit-code --name-only; then
+            echo "> Generated code not up to date with proto schema"
             exit 1
           fi
       - name: Install dependencies
@@ -34,7 +34,7 @@ jobs:
       - name: Lint
         working-directory: ${{env.WORKDIR}}
         run: |
-          if [ -n "$(gofmt -l .)" ]; then
+          if [[ -n "$(gofmt -l .)" ]]; then
             exit 1
           fi
       - name: Run tests

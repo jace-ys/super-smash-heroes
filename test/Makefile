@@ -1,4 +1,4 @@
-.PHONY: integration setup teardown proto format
+.PHONY: integration setup teardown proto migrations format
 
 PROTO = v1/battle v1/superhero
 
@@ -24,6 +24,10 @@ teardown:
 proto:
 	@echo "==> Generating proto.."
 	../bin/protogen -t "${PROTO}" -p ../api/proto
+
+migrations:
+	@echo "==> Copying migrations.."
+	rsync -v --ignore-existing ../databases/postgres/migrations/ data/postgres/migrations/
 
 format:
 	@echo "==> Formatting code.."
