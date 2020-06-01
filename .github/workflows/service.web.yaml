@@ -19,14 +19,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-service.web-
       - name: Install dependencies
-        working-directory: ${{env.WORKDIR}}
+        working-directory: ${{ env.WORKDIR }}
         run: npm install
       - name: Lint
-        working-directory: ${{env.WORKDIR}}
+        working-directory: ${{ env.WORKDIR }}
         run: npm run lint
       - name: Run tests
-        working-directory: ${{env.WORKDIR}}
+        working-directory: ${{ env.WORKDIR }}
         run: npm test
       - name: Build
-        working-directory: ${{env.WORKDIR}}
+        working-directory: ${{ env.WORKDIR }}
         run: npm run build

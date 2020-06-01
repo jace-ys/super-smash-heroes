@@ -1,11 +1,11 @@
-.PHONY: integration setup teardown proto migrations format
+.PHONY: integration images setup teardown tools proto migrations format
 
 PROTO = v1/battle v1/superhero
 
 integration:
 	@make teardown
 	@make setup
-	@echo "==> Initializing.." && ../bin/wait-for localhost:5432
+	@echo "==> Initializing.." && ../bin/wait-for localhost:5432 && sleep 3
 	@echo "==> Running integration tests.."
 	go test -v ./integration
 
@@ -20,6 +20,12 @@ setup:
 teardown:
 	@echo "==> Killing containers.."
 	docker-compose down -v
+
+tools:
+	@echo "==> Installing tools.."
+	go install google.golang.org/protobuf/cmd/protoc-gen-go
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+	go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 
 proto:
 	@echo "==> Generating proto.."

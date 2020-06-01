@@ -11,4 +11,4 @@ services:
 
   db.postgres.init:
     volumes:
-      - ./test/data/postgres/migrations:/postgres/migrations
+      - ./test/data/postgres/migrations:/migrations

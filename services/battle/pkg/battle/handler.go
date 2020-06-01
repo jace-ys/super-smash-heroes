@@ -12,18 +12,17 @@ import (
 )
 
 func (s *BattleService) GetResult(ctx context.Context, req *pb.GetResultRequest) (*pb.GetResultResponse, error) {
-	level.Info(s.logger).Log("event", "battle.get_result.started")
-	defer level.Info(s.logger).Log("event", "battle.get_result.finished")
+	level.Info(s.logger).Log("event", "result.get.started")
+	defer level.Info(s.logger).Log("event", "result.get.finished")
 
 	err := s.validateGetResultRequest(req)
 	if err != nil {
-		level.Error(s.logger).Log("event", "battle.get_result.failure", "msg", err)
+		level.Error(s.logger).Log("event", "result.get.failed", "msg", err)
 		return nil, s.Error(codes.InvalidArgument, err)
 	}
 
-	winner := s.determineWinner(req.PlayerOne, req.PlayerTwo)
 	return &pb.GetResultResponse{
-		Winner: winner,
+		Winner: s.determineWinner(req.PlayerOne, req.PlayerTwo),
 	}, nil
 }
 

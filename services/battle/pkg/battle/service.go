@@ -4,8 +4,7 @@ import (
 	"context"
 
 	"github.com/go-kit/kit/log"
-
-	"github.com/jace-ys/super-smash-heroes/services/battle/pkg/postgres"
+	"github.com/jace-ys/go-library/postgres"
 
 	pb "github.com/jace-ys/super-smash-heroes/services/battle/api/battle"
 )
@@ -17,14 +16,15 @@ type Server interface {
 }
 
 type BattleService struct {
-	logger log.Logger
-	db     postgres.Client
+	pb.UnimplementedBattleServiceServer
+	logger   log.Logger
+	database *postgres.Client
 }
 
-func NewService(logger log.Logger, dbClient postgres.Client) (*BattleService, error) {
+func NewService(logger log.Logger, database *postgres.Client) (*BattleService, error) {
 	return &BattleService{
-		logger: logger,
-		db:     dbClient,
+		logger:   logger,
+		database: database,
 	}, nil
 }
 
@@ -39,7 +39,7 @@ func (s *BattleService) StartServer(ctx context.Context, server Server) error {
 }
 
 func (s *BattleService) Teardown() error {
-	if err := s.db.Close(); err != nil {
+	if err := s.database.Close(); err != nil {
 		return err
 	}
 	return nil

@@ -30,19 +30,20 @@ for TARGET in $TARGETS; do
 
   mkdir -p "$OUTDIR"
   protoc \
-    -I/usr/local/include \
     -I"$PROTOPATH/$VERSION" \
-    -I"$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis" \
-    --go_out="plugins=grpc:$OUTDIR" \
+    -I"$PROTOPATH" \
+    -I/usr/local/include \
+    --go-grpc_out=paths=source_relative:"$OUTDIR" \
+    --go_out=paths=source_relative:"$OUTDIR" \
     "$PROTOPATH/$TARGET.proto"
-  echo "==> Generated gRPC interfaces from $TARGET.proto"
+  echo "==> Generated gRPC service interfaces from $TARGET.proto"
 
   if [ "$GATEWAY" = true ]; then
     protoc \
-      -I/usr/local/include \
       -I"$PROTOPATH/$VERSION" \
-      -I"$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis" \
-      --grpc-gateway_out="logtostderr=true:$OUTDIR" \
+      -I"$PROTOPATH" \
+      -I/usr/local/include \
+      --grpc-gateway_out=logtostderr=true,paths=source_relative:"$OUTDIR" \
       "$PROTOPATH/$TARGET.proto"
     echo "==> Generated gRPC gateway interfaces from $TARGET.proto"
   fi

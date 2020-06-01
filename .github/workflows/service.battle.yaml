@@ -9,7 +9,7 @@ jobs:
       WORKDIR: ./services/battle
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v2
         with:
           go-version: "1.14"
       - uses: actions/cache@v1
@@ -18,28 +18,40 @@ jobs:
           key: ${{ runner.os }}-service.battle-${{ hashFiles('services/battle/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-service.battle-
+      - name: Verify dependencies
+        working-directory: ${{ env.WORKDIR }}
+        run: |
+          go mod tidy
+          if ! git diff --exit-code --name-only; then
+            echo "> Go modules not tidy"
+            exit 1
+          fi
+      - name: Install dependencies
+        working-directory: ${{ env.WORKDIR }}
+        run: |
+          go mod download
+          make tools
       - name: Install protobuf
-        run: ./bin/protoinstall protoc go
+        run: |
+          ./bin/protoinstall
+          sudo chmod -R 755 /usr/local/bin/protoc /usr/local/include/google
       - name: Verify protobuf
-        working-directory: ${{env.WORKDIR}}
+        working-directory: ${{ env.WORKDIR }}
         run: |
           make proto
           if ! git diff --exit-code --name-only; then
             echo "> Generated code not up to date with proto schema"
             exit 1
           fi
-      - name: Install dependencies
-        working-directory: ${{env.WORKDIR}}
-        run: go mod download
       - name: Lint
-        working-directory: ${{env.WORKDIR}}
+        working-directory: ${{ env.WORKDIR }}
         run: |
           if [[ -n "$(gofmt -l .)" ]]; then
             exit 1
           fi
       - name: Run tests
-        working-directory: ${{env.WORKDIR}}
+        working-directory: ${{ env.WORKDIR }}
         run: make test
       - name: Build
-        working-directory: ${{env.WORKDIR}}
+        working-directory: ${{ env.WORKDIR }}
         run: make build

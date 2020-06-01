@@ -19,11 +19,10 @@ func (s *SuperheroService) List(ctx context.Context, req *pb.ListRequest) (*pb.L
 
 	superheroes, err := s.list(ctx)
 	if err != nil {
-		level.Error(s.logger).Log("event", "superhero.list.failure", "msg", err)
+		level.Error(s.logger).Log("event", "superhero.list.failed", "msg", err)
 		return nil, s.Error(codes.Internal, err)
 	}
 
-	level.Info(s.logger).Log("event", "superhero.list.success")
 	return &pb.ListResponse{
 		Superheroes: superheroes,
 	}, nil
@@ -31,7 +30,7 @@ func (s *SuperheroService) List(ctx context.Context, req *pb.ListRequest) (*pb.L
 
 func (s *SuperheroService) list(ctx context.Context) ([]*pb.Superhero, error) {
 	var superheroes []*pb.Superhero
-	err := s.db.Transact(ctx, func(tx *sqlx.Tx) error {
+	err := s.database.Transact(ctx, func(tx *sqlx.Tx) error {
 		query := `
 		SELECT s.id, s.full_name, s.alter_ego, s.image_url, s.intelligence, s.strength, s.speed, s.durability, s.power, s.combat
 		FROM superheroes AS s
@@ -62,7 +61,7 @@ func (s *SuperheroService) Get(ctx context.Context, req *pb.GetRequest) (*pb.Get
 
 	superhero, err := s.get(ctx, req.Id)
 	if err != nil {
-		level.Error(s.logger).Log("event", "superhero.get.failure", "msg", err)
+		level.Error(s.logger).Log("event", "superhero.get.failed", "msg", err)
 		switch {
 		case errors.Is(err, ErrSuperheroNotFound):
 			return nil, s.Error(codes.NotFound, err)
@@ -71,7 +70,6 @@ func (s *SuperheroService) Get(ctx context.Context, req *pb.GetRequest) (*pb.Get
 		}
 	}
 
-	level.Info(s.logger).Log("event", "superhero.get.success")
 	return &pb.GetResponse{
 		Superheroes: superhero,
 	}, nil
@@ -79,7 +77,7 @@ func (s *SuperheroService) Get(ctx context.Context, req *pb.GetRequest) (*pb.Get
 
 func (s *SuperheroService) get(ctx context.Context, id int32) (*pb.Superhero, error) {
 	var superhero pb.Superhero
-	err := s.db.Transact(ctx, func(tx *sqlx.Tx) error {
+	err := s.database.Transact(ctx, func(tx *sqlx.Tx) error {
 		query := `
 		SELECT s.id, s.full_name, s.alter_ego, s.image_url, s.intelligence, s.strength, s.speed, s.durability, s.power, s.combat
 		FROM superheroes AS s
@@ -105,19 +103,19 @@ func (s *SuperheroService) Create(ctx context.Context, req *pb.CreateRequest) (*
 
 	err := s.validateCreateRequest(req.FullName, req.AlterEgo)
 	if err != nil {
-		level.Error(s.logger).Log("event", "superhero.create.failure", "msg", err)
+		level.Error(s.logger).Log("event", "superhero.create.failed", "msg", err)
 		return nil, s.Error(codes.InvalidArgument, err)
 	}
 
 	superhero, err := s.registry.Find(req.FullName, req.AlterEgo)
 	if err != nil {
-		level.Error(s.logger).Log("event", "superhero.create.failure", "msg", err)
+		level.Error(s.logger).Log("event", "superhero.create.failed", "msg", err)
 		return nil, s.Error(codes.NotFound, err)
 	}
 
 	id, err := s.create(ctx, superhero)
 	if err != nil {
-		level.Error(s.logger).Log("event", "superhero.create.failure", "msg", err)
+		level.Error(s.logger).Log("event", "superhero.create.failed", "msg", err)
 		switch {
 		case errors.Is(err, ErrSuperheroExists):
 			return nil, s.Error(codes.AlreadyExists, err)
@@ -126,7 +124,6 @@ func (s *SuperheroService) Create(ctx context.Context, req *pb.CreateRequest) (*
 		}
 	}
 
-	level.Info(s.logger).Log("event", "superhero.create.success")
 	return &pb.CreateResponse{
 		Id: id,
 	}, nil
@@ -144,7 +141,7 @@ func (s *SuperheroService) validateCreateRequest(fullName, alterEgo string) erro
 
 func (s *SuperheroService) create(ctx context.Context, superhero *pb.Superhero) (int32, error) {
 	var id int32
-	err := s.db.Transact(ctx, func(tx *sqlx.Tx) error {
+	err := s.database.Transact(ctx, func(tx *sqlx.Tx) error {
 		query := `
 		INSERT INTO superheroes (full_name, alter_ego, image_url, intelligence, strength, speed, durability, power, combat)
 		VALUES (:full_name, :alter_ego, :image_url, :intelligence, :strength, :speed, :durability, :power, :combat)
@@ -174,7 +171,7 @@ func (s *SuperheroService) Delete(ctx context.Context, req *pb.DeleteRequest) (*
 
 	err := s.delete(ctx, req.Id)
 	if err != nil {
-		level.Error(s.logger).Log("event", "superhero.delete.failure", "msg", err)
+		level.Error(s.logger).Log("event", "superhero.delete.failed", "msg", err)
 		switch {
 		case errors.Is(err, ErrSuperheroNotFound):
 			return nil, s.Error(codes.NotFound, err)
@@ -183,12 +180,11 @@ func (s *SuperheroService) Delete(ctx context.Context, req *pb.DeleteRequest) (*
 		}
 	}
 
-	level.Info(s.logger).Log("event", "superhero.delete.success")
 	return &pb.DeleteResponse{}, nil
 }
 
 func (s *SuperheroService) delete(ctx context.Context, id int32) error {
-	err := s.db.Transact(ctx, func(tx *sqlx.Tx) error {
+	err := s.database.Transact(ctx, func(tx *sqlx.Tx) error {
 		query := `
 		DELETE FROM superheroes
 		WHERE id=$1

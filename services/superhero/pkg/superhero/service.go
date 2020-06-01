@@ -4,8 +4,7 @@ import (
 	"context"
 
 	"github.com/go-kit/kit/log"
-
-	"github.com/jace-ys/super-smash-heroes/services/superhero/pkg/postgres"
+	"github.com/jace-ys/go-library/postgres"
 
 	pb "github.com/jace-ys/super-smash-heroes/services/superhero/api/superhero"
 )
@@ -17,15 +16,16 @@ type Server interface {
 }
 
 type SuperheroService struct {
+	pb.UnimplementedSuperheroServiceServer
 	logger   log.Logger
-	db       postgres.Client
+	database *postgres.Client
 	registry SuperheroRegistry
 }
 
-func NewService(logger log.Logger, dbClient postgres.Client, registry SuperheroRegistry) (*SuperheroService, error) {
+func NewService(logger log.Logger, postgres *postgres.Client, registry SuperheroRegistry) (*SuperheroService, error) {
 	return &SuperheroService{
 		logger:   logger,
-		db:       dbClient,
+		database: postgres,
 		registry: registry,
 	}, nil
 }
@@ -41,7 +41,7 @@ func (s *SuperheroService) StartServer(ctx context.Context, server Server) error
 }
 
 func (s *SuperheroService) Teardown() error {
-	if err := s.db.Close(); err != nil {
+	if err := s.database.Close(); err != nil {
 		return err
 	}
 	return nil

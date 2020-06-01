@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
 
-for ARG in "$@"; do
-  case $ARG in
-    protoc )
-      OS=${OS:-linux}
-      PROTOC_VERSION=3.11.4
-      curl -OL "https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOC_VERSION/protoc-$PROTOC_VERSION-$OS-x86_64.zip"
-      sudo unzip "protoc-$PROTOC_VERSION-$OS-x86_64.zip" -d /usr/local
-      rm "protoc-$PROTOC_VERSION-$OS-x86_64.zip"
-      ;;
-    go )
-      GO111MODULE=off go get github.com/golang/protobuf/protoc-gen-go
-      GO111MODULE=off go get github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-      ;;
-  esac
-done
+OS=${OS:-linux}
+PROTOC_VERSION=3.12.3
+
+curl -OL "https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOC_VERSION/protoc-$PROTOC_VERSION-$OS-x86_64.zip"
+sudo unzip "protoc-$PROTOC_VERSION-$OS-x86_64.zip" -d /usr/local
+rm "protoc-$PROTOC_VERSION-$OS-x86_64.zip"
