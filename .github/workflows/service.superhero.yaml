@@ -18,43 +18,44 @@ jobs:
           key: ${{ runner.os }}-service.superhero-${{ hashFiles('services/superhero/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-service.superhero-
+
       - name: Inject environment
         run: |
           echo "SUPERHERO_API_TOKEN=${{ secrets.SUPERHERO_API_TOKEN }}" >> .env
-      - name: Verify dependencies
+
+      - name: Ensure dependencies
         working-directory: ${{ env.WORKDIR }}
         run: |
           go mod tidy
-          if ! git diff --exit-code --name-only; then
-            echo "> Go modules not tidy"
-            exit 1
-          fi
+          git diff --exit-code --name-only
+
       - name: Install dependencies
         working-directory: ${{ env.WORKDIR }}
         run: |
           go mod download
           make tools
+
       - name: Install protobuf
         run: |
           ./bin/protoinstall
           sudo chmod -R 755 /usr/local/bin/protoc /usr/local/include/google
+
       - name: Verify protobuf
         working-directory: ${{ env.WORKDIR }}
         run: |
           make proto
-          if ! git diff --exit-code --name-only; then
-            echo "> Generated code not up to date with proto schema"
-            exit 1
-          fi
+          git diff --exit-code --name-only
+
       - name: Lint
         working-directory: ${{ env.WORKDIR }}
         run: |
-          if [[ -n "$(gofmt -l .)" ]]; then
-            exit 1
-          fi
+          make format
+          git diff --exit-code --name-only
+
       - name: Run tests
         working-directory: ${{ env.WORKDIR }}
         run: make test
+
       - name: Build
         working-directory: ${{ env.WORKDIR }}
         run: make build
