@@ -23,16 +23,11 @@ jobs:
         run: |
           echo "SUPERHERO_API_TOKEN=${{ secrets.SUPERHERO_API_TOKEN }}" >> .env
 
-      - name: Ensure dependencies
+      - name: Install dependencies
         working-directory: ${{ env.WORKDIR }}
         run: |
           go mod tidy
           git diff --exit-code --name-only
-
-      - name: Install dependencies
-        working-directory: ${{ env.WORKDIR }}
-        run: |
-          go mod download
           make tools
 
       - name: Install protobuf

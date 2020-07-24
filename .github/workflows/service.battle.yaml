@@ -19,16 +19,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-service.battle-
 
-      - name: Ensure dependencies
+      - name: Install dependencies
         working-directory: ${{ env.WORKDIR }}
         run: |
           go mod tidy
           git diff --exit-code --name-only
-
-      - name: Install dependencies
-        working-directory: ${{ env.WORKDIR }}
-        run: |
-          go mod download
           make tools
 
       - name: Install protobuf

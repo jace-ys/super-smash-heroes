@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/alecthomas/kingpin"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/jace-ys/go-library/postgres"
 	"golang.org/x/sync/errgroup"
+	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/jace-ys/super-smash-heroes/services/superhero/pkg/server"
 	"github.com/jace-ys/super-smash-heroes/services/superhero/pkg/superhero"
