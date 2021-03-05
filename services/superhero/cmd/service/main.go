@@ -26,7 +26,7 @@ func main() {
 	logger = log.NewJSONLogger(log.NewSyncWriter(os.Stdout))
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC, "source", log.DefaultCaller)
 
-	postgres, err := postgres.NewClient(c.database.ConnectionURL)
+	postgres, err := postgres.NewClient(c.database.connectionURL)
 	if err != nil {
 		exit(err)
 	}
@@ -70,8 +70,10 @@ func main() {
 type config struct {
 	server   server.GRPCServerConfig
 	proxy    server.GatewayProxyConfig
-	database postgres.ClientConfig
 	registry superhero.SuperheroAPIClientConfig
+	database struct {
+		connectionURL string
+	}
 }
 
 func parseCommand() *config {
@@ -79,7 +81,7 @@ func parseCommand() *config {
 
 	kingpin.Flag("port", "port for the gRPC server").Envar("PORT").Default("8081").IntVar(&c.server.Port)
 	kingpin.Flag("gateway-port", "port for the REST gateway proxy").Envar("GATEWAY_PORT").Default("8080").IntVar(&c.proxy.Port)
-	kingpin.Flag("database-url", "URL for connecting to Postgres.").Envar("DATABASE_URL").Default("postgres://nintendo:nintendo@127.0.0.1:5432/nintendo").StringVar(&c.database.ConnectionURL)
+	kingpin.Flag("database-url", "URL for connecting to Postgres.").Envar("DATABASE_URL").Default("postgres://nintendo:nintendo@127.0.0.1:5432/nintendo").StringVar(&c.database.connectionURL)
 	kingpin.Flag("superhero-api-token", "token for authenticating with the Superhero API").Envar("SUPERHERO_API_TOKEN").Required().StringVar(&c.registry.Token)
 	kingpin.Parse()
 
