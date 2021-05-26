@@ -16,9 +16,9 @@ var (
 	superheroService superhero.SuperheroServiceClient
 )
 
-func TestSuperheroService(t *testing.T) {
+func TestIntegration(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "SuperheroService Suite")
+	RunSpecs(t, "Integration Suite")
 }
 
 var _ = BeforeSuite(func() {
