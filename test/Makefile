@@ -5,7 +5,8 @@ PROTO = v1/battle v1/superhero
 integration:
 	@make teardown
 	@make setup
-	@echo "==> Initializing.." && ../bin/wait-for localhost:5432 && sleep 5
+	@echo "==> Initializing.." && ../bin/wait-for localhost:5432 && sleep 10
+	@docker-compose ps && docker-compose logs
 	@echo "==> Running integration tests.."
 	go test -v ./integration
 
