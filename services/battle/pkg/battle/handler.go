@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/go-kit/kit/log/level"
+	"github.com/go-kit/log/level"
 	"google.golang.org/grpc/codes"
 
 	pb "github.com/jace-ys/super-smash-heroes/services/battle/api/battle"

@@ -93,7 +93,7 @@ var _ = Describe("SuperheroService", func() {
 		})
 
 		Context("Unregistered superhero", func() {
-			It("returns InvalidArgument", func() {
+			It("returns NotFound", func() {
 				ctx, cancel := context.WithCancel(context.Background())
 				defer cancel()
 

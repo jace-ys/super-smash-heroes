@@ -4,9 +4,8 @@ PROTO = v1/battle v1/superhero
 
 integration:
 	@make teardown
+	@echo "==> Initializing.."
 	@make setup
-	@echo "==> Initializing.." && ../bin/wait-for localhost:5432 && sleep 10
-	@docker-compose ps && docker-compose logs
 	@echo "==> Running integration tests.."
 	go test -v ./integration
 
@@ -17,6 +16,7 @@ images:
 setup:
 	@echo "==> Starting containers.."
 	docker-compose -f ../docker-compose.yaml -f docker-compose.test.yaml up -d
+	../bin/wait-for localhost:5001 && sleep 10
 
 teardown:
 	@echo "==> Killing containers.."

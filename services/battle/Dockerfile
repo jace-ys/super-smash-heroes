@@ -1,11 +1,11 @@
-FROM golang:1.16 AS builder
+FROM golang:1.21.4 AS builder
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . ./
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go install -a -installsuffix cgo ./cmd/service/...
+RUN CGO_ENABLED=0 go build -o dist/ ./cmd/service/...
 
-FROM alpine:3.11
+FROM alpine:3.18
 WORKDIR /src
-COPY --from=builder /go/bin/ /bin/
-CMD ["service"]
+COPY --from=builder /src/dist /bin/
+CMD ["/bin/service"]
