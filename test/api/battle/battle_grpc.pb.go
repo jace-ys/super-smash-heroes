@@ -11,7 +11,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+// Requires gRPC-Go v1.32.0 or later.
+const _ = grpc.SupportPackageIsVersion7
 
 // BattleServiceClient is the client API for BattleService service.
 //
@@ -49,13 +50,20 @@ type BattleServiceServer interface {
 type UnimplementedBattleServiceServer struct {
 }
 
-func (*UnimplementedBattleServiceServer) GetResult(context.Context, *GetResultRequest) (*GetResultResponse, error) {
+func (UnimplementedBattleServiceServer) GetResult(context.Context, *GetResultRequest) (*GetResultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetResult not implemented")
 }
-func (*UnimplementedBattleServiceServer) mustEmbedUnimplementedBattleServiceServer() {}
+func (UnimplementedBattleServiceServer) mustEmbedUnimplementedBattleServiceServer() {}
 
-func RegisterBattleServiceServer(s *grpc.Server, srv BattleServiceServer) {
-	s.RegisterService(&_BattleService_serviceDesc, srv)
+// UnsafeBattleServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BattleServiceServer will
+// result in compilation errors.
+type UnsafeBattleServiceServer interface {
+	mustEmbedUnimplementedBattleServiceServer()
+}
+
+func RegisterBattleServiceServer(s grpc.ServiceRegistrar, srv BattleServiceServer) {
+	s.RegisterService(&BattleService_ServiceDesc, srv)
 }
 
 func _BattleService_GetResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -76,7 +84,10 @@ func _BattleService_GetResult_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-var _BattleService_serviceDesc = grpc.ServiceDesc{
+// BattleService_ServiceDesc is the grpc.ServiceDesc for BattleService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var BattleService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "battle.BattleService",
 	HandlerType: (*BattleServiceServer)(nil),
 	Methods: []grpc.MethodDesc{

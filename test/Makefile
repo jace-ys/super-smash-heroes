@@ -1,26 +1,28 @@
 .PHONY: integration images setup teardown tools proto migrations format
 
+-include ../.env
+
 PROTO = v1/battle v1/superhero
 
 integration:
 	@make teardown
+	@echo "==> Initializing.."
 	@make setup
-	@echo "==> Initializing.." && ../bin/wait-for localhost:5432 && sleep 10
-	@docker-compose ps && docker-compose logs
+	@docker compose logs
 	@echo "==> Running integration tests.."
 	go test -v ./integration
 
 images:
 	@echo "==> Building images.."
-	docker-compose build
+	docker compose build
 
 setup:
 	@echo "==> Starting containers.."
-	docker-compose -f ../docker-compose.yaml -f docker-compose.test.yaml up -d
+	docker compose -f ../docker-compose.yaml -f docker-compose.test.yaml up -d
 
 teardown:
 	@echo "==> Killing containers.."
-	docker-compose down -v
+	docker compose down -v
 
 tools:
 	@echo "==> Installing tools.."

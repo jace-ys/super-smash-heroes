@@ -1,3 +1,4 @@
+---
 name: test.integration
 
 on: push
@@ -6,51 +7,52 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      WORKDIR: ./test
+      WORKDIR: './test'
+      SUPERHERO_API_TOKEN: '${{ secrets.SUPERHERO_API_TOKEN }}'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-        with:
-          go-version: "1.16"
-      - uses: actions/cache@v1
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-test.integration-${{ hashFiles('test/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-test.integration-
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+      with:
+        go-version: "1.21"
+    - uses: actions/cache@v1
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-test.integration-${{ hashFiles('test/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-test.integration-
 
-      - name: Setup environment
-        run: |
-          echo "SUPERHERO_API_TOKEN=${{ secrets.SUPERHERO_API_TOKEN }}" >> .env
+    - name: Setup environment
+      run: |
+        echo "SUPERHERO_API_TOKEN=${{ secrets.SUPERHERO_API_TOKEN }}" >> .env
 
-      - name: Install dependencies
-        working-directory: ${{ env.WORKDIR }}
-        run: |
-          go mod tidy
-          git diff --exit-code --name-only
-          make tools
+    - name: Install dependencies
+      working-directory: ${{ env.WORKDIR }}
+      run: |
+        go mod tidy
+        git diff --exit-code --name-only
+        make tools
 
-      - name: Install protobuf
-        run: |
-          ./bin/protoinstall
-          sudo chmod -R 755 /usr/local/bin/protoc /usr/local/include/google
+    - name: Install protobuf
+      run: |
+        ./bin/protoinstall
+        sudo chmod -R 755 /usr/local/bin/protoc /usr/local/include/google
 
-      - name: Verify protobuf
-        working-directory: ${{ env.WORKDIR }}
-        run: |
-          make proto
-          git diff --exit-code --name-only
+    - name: Verify protobuf
+      working-directory: ${{ env.WORKDIR }}
+      run: |
+        make proto
+        git diff --exit-code --name-only
 
-      - name: Lint
-        working-directory: ${{ env.WORKDIR }}
-        run: |
-          make format
-          git diff --exit-code --name-only
+    - name: Lint
+      working-directory: ${{ env.WORKDIR }}
+      run: |
+        make format
+        git diff --exit-code --name-only
 
-      - name: Build images
-        working-directory: ${{ env.WORKDIR }}
-        run: make images
+    - name: Build images
+      working-directory: ${{ env.WORKDIR }}
+      run: make images
 
-      - name: Run integration test suite
-        working-directory: ${{ env.WORKDIR }}
-        run: make integration
+    - name: Run integration test suite
+      working-directory: ${{ env.WORKDIR }}
+      run: make integration

@@ -59,6 +59,10 @@ export default class Battle extends Vue {
   }
 
   playerSelect(superhero: Superhero): void {
+    if (this.winner) {
+      this.winner = Winner.None;
+    }
+
     if (!this.players.includes(superhero)) {
       Vue.set(this.players, this.turn, superhero);
       if (this.turn < MAX_PLAYERS - 1) {
@@ -123,6 +127,7 @@ export default class Battle extends Vue {
 .p1-header {
   color: white;
   background-color: red;
+  padding-top: 15px;
 }
 .p1-selected {
   border: 3px solid red;
@@ -130,6 +135,7 @@ export default class Battle extends Vue {
 .p2-header {
   color: white;
   background-color: blue;
+  padding-top: 15px;
 }
 .p2-selected {
   border: 3px solid blue;

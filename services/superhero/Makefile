@@ -1,6 +1,6 @@
 .PHONY: all run build dependencies tools proto test format
 
-include ../../.env
+-include ../../.env
 
 SOURCE = cmd/service/main.go
 PROTO = v1/superhero
@@ -22,7 +22,7 @@ build:
 
 dependencies:
 	@echo "==> Starting auxiliary containers.."
-	docker-compose up -d ${DEPENDENCIES}
+	docker compose up -d ${DEPENDENCIES}
 
 tools:
 	@echo "==> Installing tools.."

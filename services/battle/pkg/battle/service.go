@@ -3,7 +3,7 @@ package battle
 import (
 	"context"
 
-	"github.com/go-kit/kit/log"
+	"github.com/go-kit/log"
 	"github.com/jace-ys/go-library/postgres"
 
 	pb "github.com/jace-ys/super-smash-heroes/services/battle/api/battle"

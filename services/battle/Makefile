@@ -19,7 +19,7 @@ build:
 
 dependencies:
 	@echo "==> Starting auxiliary containers.."
-	docker-compose up -d ${DEPENDENCIES}
+	docker compose up -d ${DEPENDENCIES}
 
 tools:
 	@echo "==> Installing tools.."

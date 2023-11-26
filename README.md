@@ -11,7 +11,7 @@ Modern web development using Go, gRPC, Vue.js, PostgreSQL and Docker - a full-st
 
 To spin up the services:
 
-- Run `docker-compose up`
+- Run `docker compose up`
 - Visit http://smash.localhost
 
 ## Managing Superheroes

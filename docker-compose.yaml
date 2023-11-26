@@ -21,6 +21,11 @@ services:
   service.superhero:
     build: ./services/superhero
     image: super-smash-heroes/service.superhero:latest
+    depends_on:
+      db.postgres:
+        condition: service_healthy
+      db.postgres.init:
+        condition: service_completed_successfully
     labels:
       - traefik.enable=true
       - traefik.http.routers.service-superhero.rule=PathPrefix(`/api/superheroes`)
@@ -33,10 +38,16 @@ services:
       PORT: 8081
       GATEWAY_PORT: 8080
       DATABASE_URL: postgres://nintendo:nintendo@db.postgres:5432/nintendo?sslmode=disable
+      SUPERHERO_API_TOKEN: ${SUPERHERO_API_TOKEN}
 
   service.battle:
     build: ./services/battle
     image: super-smash-heroes/service.battle:latest
+    depends_on:
+      db.postgres:
+        condition: service_healthy
+      db.postgres.init:
+        condition: service_completed_successfully
     labels:
       - traefik.enable=true
       - traefik.http.routers.service-battle.rule=PathPrefix(`/api/battle`)
@@ -55,19 +66,22 @@ services:
       POSTGRES_DB: nintendo
       POSTGRES_PASSWORD: nintendo
       POSTGRES_USER: nintendo
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
     ports:
       - 5432:5432
 
   db.postgres.init:
-    image: migrate/migrate:v4.11.0
-    entrypoint:
-      - wait-for
-      - db.postgres:5432
-      - --
-      - /run-migrations.sh
+    image: migrate/migrate:v4.16.2
+    depends_on:
+      db.postgres:
+        condition: service_healthy
+    entrypoint: ["/run-migrations.sh"]
     environment:
       DATABASE_URL: postgres://nintendo:nintendo@db.postgres:5432/nintendo?sslmode=disable
     volumes:
-      - ./bin/wait-for:/usr/local/bin/wait-for
       - ./databases/postgres/migrations:/migrations
       - ./databases/run-migrations.sh:/run-migrations.sh

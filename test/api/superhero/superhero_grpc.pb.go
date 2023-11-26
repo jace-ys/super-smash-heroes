@@ -11,7 +11,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+// Requires gRPC-Go v1.32.0 or later.
+const _ = grpc.SupportPackageIsVersion7
 
 // SuperheroServiceClient is the client API for SuperheroService service.
 //
@@ -82,22 +83,29 @@ type SuperheroServiceServer interface {
 type UnimplementedSuperheroServiceServer struct {
 }
 
-func (*UnimplementedSuperheroServiceServer) List(context.Context, *ListRequest) (*ListResponse, error) {
+func (UnimplementedSuperheroServiceServer) List(context.Context, *ListRequest) (*ListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (*UnimplementedSuperheroServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedSuperheroServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (*UnimplementedSuperheroServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+func (UnimplementedSuperheroServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (*UnimplementedSuperheroServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
+func (UnimplementedSuperheroServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (*UnimplementedSuperheroServiceServer) mustEmbedUnimplementedSuperheroServiceServer() {}
+func (UnimplementedSuperheroServiceServer) mustEmbedUnimplementedSuperheroServiceServer() {}
 
-func RegisterSuperheroServiceServer(s *grpc.Server, srv SuperheroServiceServer) {
-	s.RegisterService(&_SuperheroService_serviceDesc, srv)
+// UnsafeSuperheroServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SuperheroServiceServer will
+// result in compilation errors.
+type UnsafeSuperheroServiceServer interface {
+	mustEmbedUnimplementedSuperheroServiceServer()
+}
+
+func RegisterSuperheroServiceServer(s grpc.ServiceRegistrar, srv SuperheroServiceServer) {
+	s.RegisterService(&SuperheroService_ServiceDesc, srv)
 }
 
 func _SuperheroService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -172,7 +180,10 @@ func _SuperheroService_Delete_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-var _SuperheroService_serviceDesc = grpc.ServiceDesc{
+// SuperheroService_ServiceDesc is the grpc.ServiceDesc for SuperheroService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var SuperheroService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "superhero.SuperheroService",
 	HandlerType: (*SuperheroServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
