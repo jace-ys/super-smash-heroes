@@ -1,7 +1,5 @@
 .PHONY: all run build dependencies tools proto test format
 
--include ../../.env
-
 SOURCE = cmd/service/main.go
 PROTO = v1/superhero
 DEPENDENCIES = db.postgres db.postgres.init

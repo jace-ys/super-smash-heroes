@@ -1,6 +1,7 @@
 .DS_Store
 
 # Local .env files
+.envrc
 .env
 .env.local
 .env.*.local

@@ -33,7 +33,6 @@ services:
       - traefik.http.middlewares.service-superhero.replacepathregex.regex=^/api/superheroes(.*)
       - traefik.http.middlewares.service-superhero.replacepathregex.replacement=/v1/superheroes$$1
       - traefik.http.services.service-superhero.loadbalancer.server.port=8080
-    env_file: ./.env
     environment:
       PORT: 8081
       GATEWAY_PORT: 8080
@@ -68,7 +67,7 @@ services:
       POSTGRES_USER: nintendo
     healthcheck:
         test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
-        interval: 10s
+        interval: 5s
         timeout: 5s
         retries: 5
     ports:

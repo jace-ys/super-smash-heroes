@@ -1,7 +1,5 @@
 .PHONY: integration images setup teardown tools proto migrations format
 
--include ../.env
-
 PROTO = v1/battle v1/superhero
 
 integration:

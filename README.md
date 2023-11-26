@@ -29,10 +29,10 @@ curl -X DELETE http://localhost/api/superheroes/{id}
 ```
 
 [service.web-badge]: https://github.com/jace-ys/super-smash-heroes/workflows/service.web/badge.svg
-[service.web-workflow]: https://github.com/jace-ys/super-smash-heroes/actions?query=workflow%3Aservice.web
+[service.web-workflow]: https://github.com/jace-ys/super-smash-heroes/actions?query=workflow%3Aservice.web+branch%3Amaster
 [service.battle-badge]: https://github.com/jace-ys/super-smash-heroes/workflows/service.battle/badge.svg
-[service.battle-workflow]: https://github.com/jace-ys/super-smash-heroes/actions?query=workflow%3Aservice.battle
+[service.battle-workflow]: https://github.com/jace-ys/super-smash-heroes/actions?query=workflow%3Aservice.battle+branch%3Amaster
 [service.superhero-badge]: https://github.com/jace-ys/super-smash-heroes/workflows/service.superhero/badge.svg
-[service.superhero-workflow]: https://github.com/jace-ys/super-smash-heroes/actions?query=workflow%3Aservice.superhero
+[service.superhero-workflow]: https://github.com/jace-ys/super-smash-heroes/actions?query=workflow%3Aservice.superhero+branch%3Amaster
 [test.integration-badge]: https://github.com/jace-ys/super-smash-heroes/workflows/test.integration/badge.svg
-[test.integration-workflow]: https://github.com/jace-ys/super-smash-heroes/actions?query=workflow%3Atest.integrations
+[test.integration-workflow]: https://github.com/jace-ys/super-smash-heroes/actions?query=workflow%3Atest.integrations+branch%3Amasterg
