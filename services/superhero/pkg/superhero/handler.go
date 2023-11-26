@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/go-kit/kit/log/level"
+	"github.com/go-kit/log/level"
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	"google.golang.org/grpc/codes"

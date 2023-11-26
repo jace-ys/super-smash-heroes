@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
+	"github.com/go-kit/log"
+	"github.com/go-kit/log/level"
+
+	"github.com/alecthomas/kingpin/v2"
 	"github.com/jace-ys/go-library/postgres"
 	"golang.org/x/sync/errgroup"
-	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/jace-ys/super-smash-heroes/services/superhero/pkg/server"
 	"github.com/jace-ys/super-smash-heroes/services/superhero/pkg/superhero"
@@ -26,7 +27,7 @@ func main() {
 	logger = log.NewJSONLogger(log.NewSyncWriter(os.Stdout))
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC, "source", log.DefaultCaller)
 
-	postgres, err := postgres.NewClient(c.database.connectionURL)
+	postgres, err := postgres.NewClient(ctx, c.database.connectionURL)
 	if err != nil {
 		exit(err)
 	}
